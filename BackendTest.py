@@ -18,6 +18,11 @@ def getCurrentTime() -> str:
 
 def saveNewThing(newThing):
 
+    # Check the image
+    if not verifyImage(newThing):
+        print('That\'s not a valid image. Please try again')
+        return
+
     # Generate the file if it doesn't exist
     try:
         with open(FILENAME) as a:
@@ -71,6 +76,11 @@ def verifyDatabase():
         dogImage = data['url']
         if not match(r'.+(jpeg|jpg|png|gif|gifv)', dogImage, IGNORECASE):
             print(dogID)
+
+
+def verifyImage(imageURL) -> bool:
+    x = match(r'.+(jpeg|jpg|png|gif|gifv)', imageURL, IGNORECASE)
+    return bool(x)
 
 
 if __name__ == '__main__':
