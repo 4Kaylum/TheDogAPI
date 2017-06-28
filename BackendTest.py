@@ -1,3 +1,4 @@
+from re import match, IGNORECASE
 from datetime import datetime
 from json import loads, dumps
 from random import choice
@@ -50,10 +51,28 @@ def saveNewThing(newThing):
     return newID
 
 
-if __name__ == '__main__':
+def addNewThings():
     while True:
         x = input('What is your dog picture?\n :: ')
         y = saveNewThing(x)
-        print(f'Saved as `{y}`\n\n')
+        print(f'Saved as `{y}`\n\n')    
 
+
+def verifyDatabase():
+    # Generate the file if it doesn't exist
+    try:
+        with open(FILENAME) as a:
+            data = a.read()
+            jsonData = loads(data)
+    except (FileExistsError, FileNotFoundError):
+        jsonData = {}
+
+    for dogID, data in jsonData.items():
+        dogImage = data['url']
+        if not match(r'.+(jpeg|jpg|png|gif|gifv)', dogImage, IGNORECASE):
+            print(dogID)
+
+
+if __name__ == '__main__':
+    verifyDatabase()
 
