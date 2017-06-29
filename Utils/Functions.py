@@ -30,6 +30,13 @@ def duplicateImage(database, url) -> bool:
 
 def saveNewThing(database, newThing):
 
+    for i, o in newThing.items():
+        if i not in ['author', 'url']:
+            return 2
+            
+    if 'url' not in newThing.keys():
+        return 3
+
     # Check the image
     if not verifyImage(newThing.get('url')):
         return 0

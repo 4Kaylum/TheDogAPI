@@ -68,6 +68,14 @@ def addNewDoggo():
         data = {
             'error': 'That image is already in the database.'
         }
+    elif data is 2:
+        data = {
+            'error': 'You used an invalid JSON key. Valid keys are author and url.'
+        }
+    elif data is 3:
+        data = {
+            'error': 'You\'re missing the URL from your request.'
+        }
 
     return makeJson(data)
     
