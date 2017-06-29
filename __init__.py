@@ -1,6 +1,6 @@
 from json import dumps
 from sqlite3 import connect
-from flask import Flask, request, make_response, g
+from flask import Flask, request, make_response, g, redirect
 from Utils.Functions import saveNewThing, getOldThing
 
 
@@ -41,12 +41,20 @@ def apiPage():
         return getAllDoggo()
 
 
-# @app.errorhandler(404)
-# def not_found(error):
-#     resp = make_response('Test lol', 404)
-#     resp.headers['Content-Type'] = 'application/json'
-#     return resp
-# SELECT * FROM table ORDER BY RANDOM() LIMIT 1;
+@app.route('/<postID>')
+def getPostInfo(postID):
+    database = getDatabase()
+    c = database.execute('SELECT url FROM DogPictures WHERE id=?', (postID,))
+    x = c.fetchall()
+    return redirect(x[0][0])
+
+
+@app.route('/random')
+def getRandomPost():
+    database = getDatabase()
+    c = database.execute('SELECT url FROM DogPictures ORDER BY RANDOM() LIMIT 1')
+    x = c.fetchall()
+    return redirect(x[0][0])
 
 
 def addNewDoggo():
