@@ -1,7 +1,6 @@
 from re import match, IGNORECASE
 from sqlite3 import connect
 from datetime import datetime
-from json import loads, dumps
 from random import choice
 
 
@@ -10,7 +9,7 @@ class Database(object):
     def __init__(self, filename):
         self.filename = filename
         self.database = connect(filename)
-        self.cursor = None 
+        self.cursor = None
 
     def commit(self):
         self.database.commit()
@@ -19,8 +18,10 @@ class Database(object):
         self.database.close()
         del self
 
+    def fetchall(self):
+        return self.database.fetchall()
 
-FILENAME = 'DogPictures.json'
+
 DATABASE = Database('DogPictures.db')
 IDSTRING = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_'
 
@@ -33,6 +34,13 @@ def getCurrentTime() -> str:
     return datetime.now().isoformat()
 
 
+def getCurrentIDs() -> list:
+    DATABASE.cursor = c = DATABASE.database.execute('select id from DogPictures')
+    x = c.fetchall()
+    y = [i[0] for i in x]
+    return y
+
+
 def saveNewThing(newThing):
 
     # Check the image
@@ -40,37 +48,19 @@ def saveNewThing(newThing):
         print('That\'s not a valid image. Please try again')
         return
 
-    # # Generate the file if it doesn't exist
-    # try:
-    #     with open(FILENAME) as a:
-    #         data = a.read()
-    #         jsonData = loads(data)
-    # except (FileExistsError, FileNotFoundError):
-    #     jsonData = {}
-
     # Generate a new ID
     newID = getNewID()
-    while newID in jsonData:
+    currentIDs = getCurrentIDs()
+    while newID in currentIDs:
         newID = getNewID()
 
     # Get the current time
     currentTime = getCurrentTime()
 
-    # # Plonk it into the database
-    # jsonData[newID] = {
-    #     'url': newThing,
-    #     'id': newID,
-    #     'time': currentTime,
-    #     'author': 'Caleb#2831',
-    #     'source': 'https://www.reddit.com/r/puppy'
-    # }
-
+    # Plonk it into the database
     DATABASE.database.execute('insert into DogPictures(id, url, time, author) values (?, ?, ?, ?)', (newID, newThing, currentTime, 'Caleb#2831'))
 
-    # # Save file
-    # with open(FILENAME, 'w') as a:
-    #     a.write(dumps(jsonData))
-
+    # Save file
     DATABASE.commit()
 
     # Return the ID
@@ -84,47 +74,15 @@ def addNewThings():
         print(f'Saved as `{y}`\n\n')    
 
 
-def verifyDatabase():
-    # Generate the file if it doesn't exist
-    try:
-        with open(FILENAME) as a:
-            data = a.read()
-            jsonData = loads(data)
-    except (FileExistsError, FileNotFoundError):
-        jsonData = {}
-
-    for dogID, data in jsonData.items():
-        dogImage = data['url']
-        if not match(r'.+(jpeg|jpg|png|gif|gifv)', dogImage, IGNORECASE):
-            print(dogID)
-
-
 def verifyImage(imageURL) -> bool:
     x = match(r'.+(jpeg|jpg|png|gif|gifv)', imageURL, IGNORECASE)
     return bool(x)
 
 
-def oneTimeNewThings():
-
-    # Generate the file if it doesn't exist
-    try:
-        with open(FILENAME) as a:
-            data = a.read()
-            jsonData = loads(data)
-    except (FileExistsError, FileNotFoundError):
-        jsonData = {}  
-
-    # Do stuff
-    for dogID, data in jsonData.items():
-        DATABASE.database.execute('insert into DogPictures(id, url, time, author) values (?, ?, ?, ?)', (dogID, data['url'], data['time'], data['author']))
-
-    DATABASE.commit()
-
-
 if __name__ == '__main__':
     # verifyDatabase()
-    # addNewThings()
-    oneTimeNewThings()
+    addNewThings()
+    # oneTimeNewThings()
 
 
 DATABASE.close()
