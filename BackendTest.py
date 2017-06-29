@@ -54,11 +54,14 @@ def saveNewThing(newThing):
     while newID in currentIDs:
         newID = getNewID()
 
+    # Get the URL format
+    urlFormat = newThing.split('.')[-1].lower().replace('jpeg', 'jpg').replace('gifv', 'gif')
+
     # Get the current time
     currentTime = getCurrentTime()
 
     # Plonk it into the database
-    DATABASE.database.execute('insert into DogPictures(id, url, time, author) values (?, ?, ?, ?)', (newID, newThing, currentTime, 'Caleb#2831'))
+    DATABASE.database.execute('insert into DogPictures(id, url, time, author, format) values (?, ?, ?, ?)', (newID, newThing, currentTime, 'Caleb#2831', urlFormat))
 
     # Save file
     DATABASE.commit()
@@ -79,10 +82,14 @@ def verifyImage(imageURL) -> bool:
     return bool(x)
 
 
-if __name__ == '__main__':
-    # verifyDatabase()
-    addNewThings()
-    # oneTimeNewThings()
+try:
+    if __name__ == '__main__':
+        # verifyDatabase()
+        addNewThings()
+        # oneTimeNewThings()
+        
+except KeyboardInterrupt:
+    pass
 
 
 DATABASE.close()
