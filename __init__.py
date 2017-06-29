@@ -1,10 +1,25 @@
 from json import dumps
-from flask import Flask, request, make_response
-from Utils.Models import Database
+from sqlite3 import connect
+from flask import Flask, request, make_response, g
+from Utils.Functions import saveNewThing, getOldThing
 
 
 app = Flask(__name__)
-database = Database('DogPictures.db')
+DATABASE = './DogPictures.db'
+
+
+def getDatabase():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = connect(DATABASE)
+    return db
+
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
 
 
 @app.route('/')
@@ -15,9 +30,9 @@ def mainPage():
 @app.route('/api', methods=['GET', 'POST'])
 def apiPage():
     if request.method == 'POST':
-        addNewDoggo()
+        return addNewDoggo()
     else:
-        getAllDoggo()
+        return getAllDoggo()
 
 
 # @app.errorhandler(404)
@@ -33,7 +48,20 @@ def addNewDoggo():
 
 
 def getAllDoggo():
-    pass
+    database = getDatabase()
+    x = getOldThing(database)
+    y = x[0]
+    data = {
+        'id': y[0],
+        'url': y[1],
+        'time': y[2],
+        'author': y[3],
+        'format': y[4]
+    }
+
+    resp = make_response(dumps(data))
+    resp.headers['Content-Type'] = 'application/json'
+    return resp
 
 
 if __name__ == '__main__': app.run(debug=True)

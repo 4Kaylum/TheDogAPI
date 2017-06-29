@@ -1,4 +1,4 @@
-from datatime import datetime 
+from datetime import datetime 
 from random import choice
 
 
@@ -14,7 +14,7 @@ def getCurrentTime() -> str:
 
 
 def getCurrentIDs(database) -> list:
-    database.cursor = c = database.database.execute('SELECT id FROM DogPictures')
+    c = database.execute('SELECT id FROM DogPictures')
     x = c.fetchall()
     y = [i[0] for i in x]
     return y
@@ -40,7 +40,7 @@ def saveNewThing(database, newThing):
     currentTime = getCurrentTime()
 
     # Plonk it into the database
-    database.database.execute('INSERT INTO DogPictures(id, url, time, author, format) VALUES (?, ?, ?, ?)', (newID, newThing, currentTime, 'Caleb#2831', urlFormat))
+    database.execute('INSERT INTO DogPictures(id, url, time, author, format) VALUES (?, ?, ?, ?)', (newID, newThing, currentTime, 'Caleb#2831', urlFormat))
 
     # Save file
     database.commit()
@@ -52,3 +52,11 @@ def saveNewThing(database, newThing):
 def verifyImage(imageURL) -> bool:
     x = match(r'.+(jpeg|jpg|png|gif|gifv)', imageURL, IGNORECASE)
     return bool(x)
+
+
+def getOldThing(database):
+
+    # Get the item
+    c = database.execute('SELECT * FROM DogPictures ORDER BY RANDOM() LIMIT 1')
+    x = c.fetchall()
+    return x

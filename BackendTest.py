@@ -35,7 +35,7 @@ def getCurrentTime() -> str:
 
 
 def getCurrentIDs() -> list:
-    DATABASE.cursor = c = DATABASE.database.execute('select id from DogPictures')
+    c = DATABASE.database.execute('select id from DogPictures')
     x = c.fetchall()
     y = [i[0] for i in x]
     return y
@@ -87,7 +87,7 @@ try:
         # verifyDatabase()
         addNewThings()
         # oneTimeNewThings()
-        
+
 except KeyboardInterrupt:
     pass
 
