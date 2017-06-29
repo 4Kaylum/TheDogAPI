@@ -1,3 +1,4 @@
+from re import match, IGNORECASE
 from datetime import datetime 
 from random import choice
 
@@ -20,12 +21,21 @@ def getCurrentIDs(database) -> list:
     return y
 
 
+def duplicateImage(database, url) -> bool:
+    c = database.execute('SELECT id FROM DogPictures WHERE url=?', (url,))
+    x = c.fetchall()
+    y = len(x)
+    return bool(y)  # Returns True if duplicate
+
+
 def saveNewThing(database, newThing):
 
     # Check the image
-    if not verifyImage(newThing):
-        print('That\'s not a valid image. Please try again')
-        return
+    if not verifyImage(newThing.get('url')):
+        return 0
+
+    if duplicateImage(database, newThing.get('url')):
+        return 1
 
     # Generate a new ID
     newID = getNewID()
@@ -34,19 +44,26 @@ def saveNewThing(database, newThing):
         newID = getNewID()
 
     # Get the URL format
-    urlFormat = newThing.split('.')[-1].lower().replace('jpeg', 'jpg').replace('gifv', 'gif')
+    urlFormat = newThing.get('url').split('.')[-1].lower().replace('jpeg', 'jpg').replace('gifv', 'gif')
 
     # Get the current time
     currentTime = getCurrentTime()
 
     # Plonk it into the database
-    database.execute('INSERT INTO DogPictures(id, url, time, author, format) VALUES (?, ?, ?, ?)', (newID, newThing, currentTime, 'Caleb#2831', urlFormat))
+    database.execute('INSERT INTO DogPictures(id, url, time, author, format) VALUES (?, ?, ?, ?, ?)', (newID, newThing.get('url'), currentTime, newThing.get('author'), urlFormat))
 
     # Save file
     database.commit()
 
     # Return the ID
-    return newID
+    return {
+        'id': newID,
+        'url': newThing.get('url', None),
+        'time': currentTime,
+        'author': newThing.get('author', None),
+        'format': urlFormat,
+        'error': None
+    }
 
 
 def verifyImage(imageURL) -> bool:

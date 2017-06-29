@@ -8,6 +8,12 @@ app = Flask(__name__)
 DATABASE = './DogPictures.db'
 
 
+def makeJson(jsonData):
+    resp = make_response(dumps(jsonData))
+    resp.headers['Content-Type'] = 'application/json'
+    return resp
+
+
 def getDatabase():
     db = getattr(g, '_database', None)
     if db is None:
@@ -44,7 +50,19 @@ def apiPage():
 
 
 def addNewDoggo():
-    pass
+    database = getDatabase()
+    data = saveNewThing(database, request.args)
+    if data is 0:
+        data = {
+            'error': 'Not valid format. Valid formats are JPG, PNG, and GIF.'
+        }
+    elif data is 1:
+        data = {
+            'error': 'That image is already in the database.'
+        }
+
+    return makeJson(data)
+    
 
 
 def getAllDoggo():
@@ -56,12 +74,11 @@ def getAllDoggo():
         'url': y[1],
         'time': y[2],
         'author': y[3],
-        'format': y[4]
+        'format': y[4],
+        'error': None
     }
 
-    resp = make_response(dumps(data))
-    resp.headers['Content-Type'] = 'application/json'
-    return resp
+    return makeJson(data)
 
 
 if __name__ == '__main__': app.run(debug=True)
