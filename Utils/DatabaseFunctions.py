@@ -34,13 +34,16 @@ def saveNewToDatabse(database, request):
     # Get the author's IP
     authIP = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
 
+    # If it's me, auto-verify
+    verif = 1 if authIP == '127.0.0.1' else 0
+
     # Get the current time
     currentTime = getCurrentTime()
 
     # Plonk it into the database
     database.execute(
-        'INSERT INTO DogPictures(id, url, time, author, format, author_ip, verified) VALUES (?, ?, ?, ?, ?, ?, 0)', 
-        (newID, newThing.get('url'), currentTime, newThing.get('author'), urlFormat, authIP)
+        'INSERT INTO DogPictures(id, url, time, author, format, author_ip, verified) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+        (newID, newThing.get('url'), currentTime, newThing.get('author'), urlFormat, authIP, verif)
     )
 
     # Save file
@@ -54,7 +57,7 @@ def saveNewToDatabse(database, request):
             'time': currentTime,
             'author': newThing.get('author', None),
             'format': urlFormat,
-            'verified': 0
+            'verified': verif
         }],
         'count': 1,
         'error': None
