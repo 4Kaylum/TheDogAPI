@@ -10,7 +10,7 @@ IDSTRING = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_'
 def verifyImage(imageURL) -> bool:
     site = get(imageURL)
     data = site.content
-    return what(data)
+    return what('', h=data)
 
 
 def getNewID() -> str:
