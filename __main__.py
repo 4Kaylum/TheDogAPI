@@ -2,7 +2,7 @@ from json import dumps
 from sqlite3 import connect
 from flask import Flask, request, g, redirect
 from Utils.AllUtils import makeJsonResponse
-from Utils.DatabaseFunctions import saveNewToDatabse, getRandomDogFromDatabase, getSpecificDogFromDatabase, countTheDatabaseContent
+from Utils.DatabaseFunctions import*
 from Utils.DataReturns import databaseQueryToResponse
 
 
@@ -39,10 +39,14 @@ def apiPage():
 
 def apiPageGET():
     limit = request.args.get('limit', 1)
+    verif = request.args.get('verified', True)
     if limit > 20:
         limit = 20
     database = getDatabseVariable()
-    x = getRandomDogFromDatabase(database, limit)
+    if verif:
+        x = getRandomVerifiedDogFromDatabase(database, limit)
+    else:
+        x = getAnyRandomDogFromDatabase(database, limit)
     return databaseQueryToResponse(x)
 
 
