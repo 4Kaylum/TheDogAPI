@@ -2,7 +2,7 @@ from .AllUtils import makeJsonResponse
 
 
 def databaseQueryToDict(query):
-    v = ['id', 'url', 'time', 'author', 'format', 'author_ip', 'verified']
+    v = ['id', 'url', 'time', 'format', 'author_ip', 'verified']
     data = {'data':[], 'count':0, 'error':None}
     for databaseItem in query:
         b = {}

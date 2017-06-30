@@ -4,11 +4,6 @@ from .DatabaseBackend import*
 def saveNewToDatabse(database, request):
 
     newThing = request.args
-
-    # Make sure that there's only the author and URL specified
-    for i, o in newThing.items():
-        if i not in ['author', 'url']:
-            return 2
        
     # Make the URL required
     if 'url' not in newThing.keys():
@@ -42,8 +37,8 @@ def saveNewToDatabse(database, request):
 
     # Plonk it into the database
     database.execute(
-        'INSERT INTO DogPictures(id, url, time, author, format, author_ip, verified) VALUES (?, ?, ?, ?, ?, ?, ?)', 
-        (newID, newThing.get('url'), currentTime, newThing.get('author'), urlFormat, authIP, verif)
+        'INSERT INTO DogPictures(id, url, time, format, author_ip, verified) VALUES (?, ?, ?, ?, ?, ?)', 
+        (newID, newThing.get('url'), currentTime, urlFormat, authIP, verif)
     )
 
     # Save file
@@ -55,7 +50,6 @@ def saveNewToDatabse(database, request):
             'id': newID,
             'url': newThing.get('url', None),
             'time': currentTime,
-            'author': newThing.get('author', None),
             'format': urlFormat,
             'verified': verif
         }],

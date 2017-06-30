@@ -71,13 +71,6 @@ def apiPagePOST():
             'error': 'That image is already in the database.'
         }
         responseCode = 403
-    elif data is 2:
-        data = {
-            'data': [],
-            'count': 0,
-            'error': 'You used an invalid JSON key. Valid keys are author and url.'
-        }
-        responseCode = 400
     elif data is 3:
         data = {
             'data': [],
