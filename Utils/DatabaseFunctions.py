@@ -28,12 +28,14 @@ def duplicateImage(database, url) -> bool:
     return bool(y)  # Returns True if duplicate
 
 
-def saveNewThing(database, newThing):
+def saveNewToDatabse(database, newThing):
 
+    # Make sure that there's only the author and URL specified
     for i, o in newThing.items():
         if i not in ['author', 'url']:
             return 2
-            
+       
+    # Make the URL required
     if 'url' not in newThing.keys():
         return 3
 
@@ -41,6 +43,7 @@ def saveNewThing(database, newThing):
     if not verifyImage(newThing.get('url')):
         return 0
 
+    # Make sure that the item isn't already in the database
     if duplicateImage(database, newThing.get('url')):
         return 1
 
@@ -62,13 +65,16 @@ def saveNewThing(database, newThing):
     # Save file
     database.commit()
 
-    # Return the ID
+    # Return the data
     return {
-        'id': newID,
-        'url': newThing.get('url', None),
-        'time': currentTime,
-        'author': newThing.get('author', None),
-        'format': urlFormat,
+        'data': {[
+            'id': newID,
+            'url': newThing.get('url', None),
+            'time': currentTime,
+            'author': newThing.get('author', None),
+            'format': urlFormat
+        ]},
+        'count': 1,
         'error': None
     }
 
@@ -78,7 +84,7 @@ def verifyImage(imageURL) -> bool:
     return bool(x)
 
 
-def getOldThing(database):
+def getRandomDogFromDatabase(database):
 
     # Get the item
     c = database.execute('SELECT * FROM DogPictures ORDER BY RANDOM() LIMIT 1')

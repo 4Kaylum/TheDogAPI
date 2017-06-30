@@ -1,20 +1,16 @@
 from json import dumps
 from sqlite3 import connect
-from flask import Flask, request, make_response, g, redirect
-from Utils.Functions import saveNewThing, getOldThing
+from flask import Flask, request, g, redirect
+from Utils.AllUtils import makeJson
+from Utils.DatabaseFunctions import saveNewToDatabse, getRandomDogFromDatabase
+from Utils.DataReturns import databaseQueryToResponse
 
 
 app = Flask(__name__)
 DATABASE = './DogPictures.db'
 
 
-def makeJson(jsonData):
-    resp = make_response(dumps(jsonData))
-    resp.headers['Content-Type'] = 'application/json'
-    return resp
-
-
-def getDatabase():
+def getDatabseVariable():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = connect(DATABASE)
@@ -22,7 +18,7 @@ def getDatabase():
 
 
 @app.teardown_appcontext
-def close_connection(exception):
+def closeDatabaseConnection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
@@ -36,14 +32,14 @@ def mainPage():
 @app.route('/api', methods=['GET', 'POST'])
 def apiPage():
     if request.method == 'POST':
-        return addNewDoggo()
+        return apiPagePOST()
     else:
-        return getAllDoggo()
+        return apiPageGET()
 
 
 @app.route('/<postID>')
 def getPostInfo(postID):
-    database = getDatabase()
+    database = getDatabseVariable()
     c = database.execute('SELECT url FROM DogPictures WHERE id=?', (postID,))
     x = c.fetchall()
     return redirect(x[0][0])
@@ -51,50 +47,55 @@ def getPostInfo(postID):
 
 @app.route('/random')
 def getRandomPost():
-    database = getDatabase()
+    database = getDatabseVariable()
     c = database.execute('SELECT url FROM DogPictures ORDER BY RANDOM() LIMIT 1')
     x = c.fetchall()
     return redirect(x[0][0])
 
 
-def addNewDoggo():
-    database = getDatabase()
-    data = saveNewThing(database, request.args)
+def apiPagePOST():
+    database = getDatabseVariable()
+    data = saveNewToDatabse(database, request.args)
+
+    # Check for any error responses
     if data is 0:
         data = {
+            'data': [],
+            'count': 0
             'error': 'Not valid format. Valid formats are JPG, PNG, and GIF.'
         }
     elif data is 1:
         data = {
+            'data': [],
+            'count': 0
             'error': 'That image is already in the database.'
         }
     elif data is 2:
         data = {
+            'data': [],
+            'count': 0
             'error': 'You used an invalid JSON key. Valid keys are author and url.'
         }
     elif data is 3:
         data = {
+            'data': [],
+            'count': 0
             'error': 'You\'re missing the URL from your request.'
         }
+    else:
 
+        # No errors - just return data as usual
+        return databaseQueryToResponse(data)
+
+    # Return the error as is
     return makeJson(data)
     
 
 
-def getAllDoggo():
-    database = getDatabase()
-    x = getOldThing(database)
-    y = x[0]
-    data = {
-        'id': y[0],
-        'url': y[1],
-        'time': y[2],
-        'author': y[3],
-        'format': y[4],
-        'error': None
-    }
-
-    return makeJson(data)
+def apiPageGET():
+    database = getDatabseVariable()
+    x = getRandomDogFromDatabase(database)
+    return databaseQueryToResponse(x)
 
 
 if __name__ == '__main__': app.run(debug=True)
