@@ -66,7 +66,7 @@ def saveNewToDatabse(database, request):
 
     # Plonk it into the database
     database.execute(
-        'INSERT INTO DogPictures(id, url, time, author, format, author_ip) VALUES (?, ?, ?, ?, ?, ?)', 
+        'INSERT INTO DogPictures(id, url, time, author, format, author_ip, verified) VALUES (?, ?, ?, ?, ?, ?, 0)', 
         (newID, newThing.get('url'), currentTime, newThing.get('author'), urlFormat, authIP)
     )
 
@@ -80,7 +80,8 @@ def saveNewToDatabse(database, request):
             'url': newThing.get('url', None),
             'time': currentTime,
             'author': newThing.get('author', None),
-            'format': urlFormat
+            'format': urlFormat,
+            'verified': 0
         }],
         'count': 1,
         'error': None
