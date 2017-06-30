@@ -32,9 +32,10 @@ def mainPage():
 @app.route('/api/dog', methods=['GET', 'POST'])
 def apiPage():
     if request.method == 'POST':
-        return apiPagePOST()
+        x, y = apiPagePOST()
+        return x, y
     else:
-        return apiPageGET()
+        return apiPageGET(), 200
 
 
 def apiPageGET():
@@ -53,6 +54,7 @@ def apiPageGET():
 def apiPagePOST():
     database = getDatabseVariable()
     data = saveNewToDatabse(database, request)
+    responseCode = 201
 
     # Check for any error responses
     if data is 0:
@@ -61,27 +63,31 @@ def apiPagePOST():
             'count': 0,
             'error': 'Not valid format. Valid formats are JPG, PNG, and GIF.'
         }
+        responseCode = 400
     elif data is 1:
         data = {
             'data': [],
             'count': 0,
             'error': 'That image is already in the database.'
         }
+        responseCode = 403
     elif data is 2:
         data = {
             'data': [],
             'count': 0,
             'error': 'You used an invalid JSON key. Valid keys are author and url.'
         }
+        responseCode = 400
     elif data is 3:
         data = {
             'data': [],
             'count': 0,
             'error': 'You\'re missing the URL from your request.'
         }
+        responseCode = 400
 
     # Return any of the data as necessary
-    return makeJsonResponse(data)
+    return makeJsonResponse(data), responseCode
 
 
 @app.route('/api/dog/<dogID>')
