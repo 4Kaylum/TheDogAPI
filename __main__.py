@@ -29,12 +29,18 @@ def mainPage():
     return 'This is the main page.'
 
 
-@app.route('/api', methods=['GET', 'POST'])
+@app.route('/api/dog', methods=['GET', 'POST'])
 def apiPage():
     if request.method == 'POST':
         return apiPagePOST()
     else:
         return apiPageGET()
+
+
+def apiPageGET():
+    database = getDatabseVariable()
+    x = getRandomDogFromDatabase(database)
+    return databaseQueryToResponse(x)
 
 
 def apiPagePOST():
@@ -73,13 +79,6 @@ def apiPagePOST():
 
     # Return the error as is
     return makeJson(data)
-    
-
-
-def apiPageGET():
-    database = getDatabseVariable()
-    x = getRandomDogFromDatabase(database)
-    return databaseQueryToResponse(x)
 
 
 if __name__ == '__main__': app.run(debug=True)
