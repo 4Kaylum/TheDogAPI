@@ -38,8 +38,9 @@ def apiPage():
 
 
 def apiPageGET():
+    limit = request.args.get('limit', 1)
     database = getDatabseVariable()
-    x = getRandomDogFromDatabase(database)
+    x = getRandomDogFromDatabase(database, limit)
     return databaseQueryToResponse(x)
 
 

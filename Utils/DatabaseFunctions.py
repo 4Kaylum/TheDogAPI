@@ -84,9 +84,9 @@ def verifyImage(imageURL) -> bool:
     return bool(x)
 
 
-def getRandomDogFromDatabase(database):
+def getRandomDogFromDatabase(database, limit:int=1):
 
     # Get the item
-    c = database.execute('SELECT * FROM DogPictures ORDER BY RANDOM() LIMIT 1')
+    c = database.execute('SELECT * FROM DogPictures ORDER BY RANDOM() LIMIT ?', (limit,))
     x = c.fetchall()
     return x
