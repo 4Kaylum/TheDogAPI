@@ -82,5 +82,12 @@ def apiPagePOST():
     return makeJson(data)
 
 
+@app.route('/api/dog/<dogID>')
+def getSpecificDoog(dogID):
+    database = getDatabseVariable()
+    x = getRandomDogFromDatabase(database)
+    return databaseQueryToResponse(x)
+
+
 if __name__ == '__main__': app.run(debug=True)
 

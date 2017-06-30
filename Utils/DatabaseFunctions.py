@@ -90,3 +90,11 @@ def getRandomDogFromDatabase(database, limit:int=1):
     c = database.execute('SELECT * FROM DogPictures ORDER BY RANDOM() LIMIT ?', (limit,))
     x = c.fetchall()
     return x
+
+
+def getSpecificDogFromDatabase(database, dogNumber:str):
+
+    # Get the item
+    c = database.execute('SELECT * FROM DogPictures WHERE id=?', (dogNumber,))
+    x = c.fetchall()
+    return x
