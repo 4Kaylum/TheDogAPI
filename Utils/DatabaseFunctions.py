@@ -10,7 +10,8 @@ def saveNewToDatabse(database, request):
         return 3
 
     # Check the image
-    if not verifyImage(newThing.get('url')):
+    urlFormat = verifyImage(newThing.get('url'))
+    if urlFormat == None:
         return 0
 
     # Make sure that the item isn't already in the database
@@ -22,9 +23,6 @@ def saveNewToDatabse(database, request):
     currentIDs = getCurrentIDs(database)
     while newID in currentIDs:
         newID = getNewID()
-
-    # Get the URL format
-    urlFormat = newThing.get('url').split('.')[-1].lower().replace('jpeg', 'jpg').replace('gifv', 'gif')
 
     # Get the author's IP
     authIP = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)

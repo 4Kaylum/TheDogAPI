@@ -39,8 +39,8 @@ def apiPage():
 
 
 def apiPageGET():
-    limit = request.args.get('limit', 1)
-    verif = request.args.get('verified', True)
+    limit = int(request.args.get('limit', 1))
+    verif = bool(request.args.get('verified', 1))
     if limit > 20:
         limit = 20
     database = getDatabseVariable()
@@ -61,7 +61,7 @@ def apiPagePOST():
         data = {
             'data': [],
             'count': 0,
-            'error': 'Not valid format. Valid formats are JPG, PNG, and GIF.'
+            'error': 'The given image was not in a valid format.'
         }
         responseCode = 400
     elif data is 1:
