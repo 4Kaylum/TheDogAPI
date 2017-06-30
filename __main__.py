@@ -37,22 +37,6 @@ def apiPage():
         return apiPageGET()
 
 
-@app.route('/<postID>')
-def getPostInfo(postID):
-    database = getDatabseVariable()
-    c = database.execute('SELECT url FROM DogPictures WHERE id=?', (postID,))
-    x = c.fetchall()
-    return redirect(x[0][0])
-
-
-@app.route('/random')
-def getRandomPost():
-    database = getDatabseVariable()
-    c = database.execute('SELECT url FROM DogPictures ORDER BY RANDOM() LIMIT 1')
-    x = c.fetchall()
-    return redirect(x[0][0])
-
-
 def apiPagePOST():
     database = getDatabseVariable()
     data = saveNewToDatabse(database, request.args)
