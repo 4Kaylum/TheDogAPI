@@ -2,7 +2,7 @@ from json import dumps
 from sqlite3 import connect
 from flask import Flask, request, g, redirect
 from Utils.AllUtils import makeJsonResponse
-from Utils.DatabaseFunctions import saveNewToDatabse, getRandomDogFromDatabase, getSpecificDogFromDatabase
+from Utils.DatabaseFunctions import saveNewToDatabse, getRandomDogFromDatabase, getSpecificDogFromDatabase, countTheDatabaseContent
 from Utils.DataReturns import databaseQueryToResponse
 
 
@@ -75,20 +75,28 @@ def apiPagePOST():
             'count': 0,
             'error': 'You\'re missing the URL from your request.'
         }
-    else:
 
-        # No errors - just return data as usual
-        return databaseQueryToResponse(data)
-
-    # Return the error as is
+    # Return any of the data as necessary
     return makeJsonResponse(data)
 
 
 @app.route('/api/dog/<dogID>')
-def getSpecificDoog(dogID):
+def getSpecificDog(dogID):
     database = getDatabseVariable()
     x = getSpecificDogFromDatabase(database, dogID)
     return databaseQueryToResponse(x)
+
+
+@app.route('/api/count')
+def countTheDatabaseSize():
+    database = getDatabseVariable()
+    x = countTheDatabaseContent(database)
+    data = {
+        'data': [],
+        'count': x,
+        'error': None
+    }
+    return makeJsonResponse(data)
 
 
 if __name__ == '__main__': app.run(debug=True)

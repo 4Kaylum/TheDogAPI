@@ -98,3 +98,11 @@ def getSpecificDogFromDatabase(database, dogNumber:str):
     c = database.execute('SELECT * FROM DogPictures WHERE id=?', (dogNumber,))
     x = c.fetchall()
     return x
+
+
+def countTheDatabaseContent(database):
+
+    # Get the item
+    c = database.execute('SELECT id FROM DogPictures')
+    x = c.fetchall()
+    return len(x)
