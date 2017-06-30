@@ -48,7 +48,7 @@ def apiPageGET():
 
 def apiPagePOST():
     database = getDatabseVariable()
-    data = saveNewToDatabse(database, request.args)
+    data = saveNewToDatabse(database, request)
 
     # Check for any error responses
     if data is 0:

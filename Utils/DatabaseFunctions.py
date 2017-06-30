@@ -28,7 +28,9 @@ def duplicateImage(database, url) -> bool:
     return bool(y)  # Returns True if duplicate
 
 
-def saveNewToDatabse(database, newThing):
+def saveNewToDatabse(database, request):
+
+    newThing = request.args
 
     # Make sure that there's only the author and URL specified
     for i, o in newThing.items():
@@ -56,11 +58,17 @@ def saveNewToDatabse(database, newThing):
     # Get the URL format
     urlFormat = newThing.get('url').split('.')[-1].lower().replace('jpeg', 'jpg').replace('gifv', 'gif')
 
+    # Get the author's IP
+    authIP = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+
     # Get the current time
     currentTime = getCurrentTime()
 
     # Plonk it into the database
-    database.execute('INSERT INTO DogPictures(id, url, time, author, format) VALUES (?, ?, ?, ?, ?)', (newID, newThing.get('url'), currentTime, newThing.get('author'), urlFormat))
+    database.execute(
+        'INSERT INTO DogPictures(id, url, time, author, format, author_ip) VALUES (?, ?, ?, ?, ?, ?)', 
+        (newID, newThing.get('url'), currentTime, newThing.get('author'), urlFormat, authIP)
+    )
 
     # Save file
     database.commit()
