@@ -67,13 +67,13 @@ def saveNewToDatabse(database, newThing):
 
     # Return the data
     return {
-        'data': {[
+        'data': [{
             'id': newID,
             'url': newThing.get('url', None),
             'time': currentTime,
             'author': newThing.get('author', None),
             'format': urlFormat
-        ]},
+        }],
         'count': 1,
         'error': None
     }

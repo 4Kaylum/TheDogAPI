@@ -4,7 +4,7 @@ from .AllUtils import makeJsonResponse
 def databaseQueryToDict(query):
     v = ['id', 'url', 'time', 'author', 'format']
     data = {'data':[], 'count':0, 'error':None}
-    for databseItem in query:
+    for databaseItem in query:
         b = {}
         for index, returnItem in enumerate(databaseItem):
             b[v[index]] = returnItem

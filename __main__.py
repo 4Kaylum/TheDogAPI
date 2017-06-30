@@ -1,8 +1,8 @@
 from json import dumps
 from sqlite3 import connect
 from flask import Flask, request, g, redirect
-from Utils.AllUtils import makeJson
-from Utils.DatabaseFunctions import saveNewToDatabse, getRandomDogFromDatabase
+from Utils.AllUtils import makeJsonResponse
+from Utils.DatabaseFunctions import saveNewToDatabse, getRandomDogFromDatabase, getSpecificDogFromDatabase
 from Utils.DataReturns import databaseQueryToResponse
 
 
@@ -39,6 +39,8 @@ def apiPage():
 
 def apiPageGET():
     limit = request.args.get('limit', 1)
+    if limit > 20:
+        limit = 20
     database = getDatabseVariable()
     x = getRandomDogFromDatabase(database, limit)
     return databaseQueryToResponse(x)
@@ -52,25 +54,25 @@ def apiPagePOST():
     if data is 0:
         data = {
             'data': [],
-            'count': 0
+            'count': 0,
             'error': 'Not valid format. Valid formats are JPG, PNG, and GIF.'
         }
     elif data is 1:
         data = {
             'data': [],
-            'count': 0
+            'count': 0,
             'error': 'That image is already in the database.'
         }
     elif data is 2:
         data = {
             'data': [],
-            'count': 0
+            'count': 0,
             'error': 'You used an invalid JSON key. Valid keys are author and url.'
         }
     elif data is 3:
         data = {
             'data': [],
-            'count': 0
+            'count': 0,
             'error': 'You\'re missing the URL from your request.'
         }
     else:
@@ -79,13 +81,13 @@ def apiPagePOST():
         return databaseQueryToResponse(data)
 
     # Return the error as is
-    return makeJson(data)
+    return makeJsonResponse(data)
 
 
 @app.route('/api/dog/<dogID>')
 def getSpecificDoog(dogID):
     database = getDatabseVariable()
-    x = getRandomDogFromDatabase(database)
+    x = getSpecificDogFromDatabase(database, dogID)
     return databaseQueryToResponse(x)
 
 
