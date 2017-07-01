@@ -29,7 +29,7 @@ def mainPage():
     return 'This is the main page.'
 
 
-@app.route('/api/dog', methods=['GET', 'POST'])
+@app.route('/api/v1/dog', methods=['GET', 'POST'])
 def apiPage():
     if request.method == 'POST':
         x, y = apiPagePOST()
@@ -48,7 +48,7 @@ def apiPageGET():
         x = getRandomVerifiedDogFromDatabase(database, limit)
     else:
         x = getAnyRandomDogFromDatabase(database, limit)
-    return databaseQueryToResponse(x)
+    return databaseQueryToResponse(x, 'v1')
 
 
 def apiPagePOST():
@@ -61,21 +61,24 @@ def apiPagePOST():
         data = {
             'data': [],
             'count': 0,
-            'error': 'The given image was not in a valid format.'
+            'error': 'The given image was not in a valid format.',
+            'api_version': 'v1'
         }
         responseCode = 400
     elif data is 1:
         data = {
             'data': [],
             'count': 0,
-            'error': 'That image is already in the database.'
+            'error': 'That image is already in the database.',
+            'api_version': 'v1'
         }
         responseCode = 403
     elif data is 3:
         data = {
             'data': [],
             'count': 0,
-            'error': 'You\'re missing the URL from your request.'
+            'error': 'You\'re missing the URL from your request.',
+            'api_version': 'v1'
         }
         responseCode = 400
 
@@ -83,21 +86,22 @@ def apiPagePOST():
     return makeJsonResponse(data), responseCode
 
 
-@app.route('/api/dog/<dogID>')
+@app.route('/api/v1/dog/<dogID>')
 def getSpecificDog(dogID):
     database = getDatabseVariable()
     x = getSpecificDogFromDatabase(database, dogID)
-    return databaseQueryToResponse(x)
+    return databaseQueryToResponse(x, 'v1')
 
 
-@app.route('/api/count')
+@app.route('/api/v1/count')
 def countTheDatabaseSize():
     database = getDatabseVariable()
     x = countTheDatabaseContent(database)
     data = {
         'data': [],
         'count': x,
-        'error': None
+        'error': None,
+        'api_version': 'v1'
     }
     return makeJsonResponse(data)
 
