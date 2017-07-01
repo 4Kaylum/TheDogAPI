@@ -1,13 +1,15 @@
 from json import dumps
+from os.path import dirname, realpath
 from sqlite3 import connect
 from flask import Flask, request, g, redirect
-from Utils.AllUtils import makeJsonResponse
-from Utils.DatabaseFunctions import*
-from Utils.DataReturns import databaseQueryToResponse
+from .Utils.AllUtils import makeJsonResponse
+from .Utils.DatabaseFunctions import*
+from .Utils.DataReturns import databaseQueryToResponse
 
 
 app = Flask(__name__)
-DATABASE = './DogPictures.db'
+here = dirname(realpath(__file__))
+DATABASE = '{}/DogPictures.db'.format(here)
 
 
 def getDatabseVariable():
@@ -116,5 +118,5 @@ def countTheDatabaseSize():
     return makeJsonResponse(data)
 
 
-if __name__ == '__main__': app.run(debug=True)
+if __name__ == '__main__': app.run(host='0.0.0.0', port=80)
 
