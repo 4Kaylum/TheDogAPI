@@ -3,8 +3,8 @@ from flask import Flask, g
 
 
 app = Flask(__name__)
-from v1.apiHandling import api_v1
-from v1.uiHandling import ui_v1
+from .v1.apiHandling import api_v1
+from .v1.uiHandling import ui_v1
 app.register_blueprint(api_v1)
 app.register_blueprint(ui_v1)
 
