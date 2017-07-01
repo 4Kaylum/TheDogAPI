@@ -83,6 +83,6 @@ def getSpecificDogFromDatabase(database, dogNumber:str):
 def countTheDatabaseContent(database):
 
     # Get the item
-    c = database.execute('SELECT id FROM DogPictures')
+    c = database.execute('SELECT COUNT(id) FROM DogPictures')
     x = c.fetchall()
-    return len(x)
+    return x[0][0]
