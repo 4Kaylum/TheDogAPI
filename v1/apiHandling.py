@@ -1,8 +1,8 @@
 from flask import Blueprint, request
-from .Utils.AllUtils import makeJsonResponse
-from .Utils.DatabaseFunctions import getDatabseVariable, getSpecificDogFromDatabase, countTheDatabaseContent
-from .Utils.DataReturns import databaseQueryToResponse
-from .Utils.RequestResponses import*
+from .Utils.AllUtils import makeJsonResponse, getDatabseVariable
+from .Utils.DatabaseQueries import getSpecificDogFromDatabase, countTheDatabaseContent
+from .Utils.JsonReturnData import databaseQueryToResponse
+from .Utils.EndpointResponses import*
 
 
 api_v1 = Blueprint(

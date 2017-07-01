@@ -1,7 +1,7 @@
 from flask import request
-from .AllUtils import makeJsonResponse
-from .DatabaseFunctions import getDatabseVariable, getRandomVerifiedDogFromDatabase, getAnyRandomDogFromDatabase, saveNewToDatabse
-from .DataReturns import databaseQueryToResponse
+from .AllUtils import makeJsonResponse, getDatabseVariable
+from .DatabaseQueries import getRandomVerifiedDogFromDatabase, getAnyRandomDogFromDatabase, saveNewToDatabse
+from .JsonReturnData import databaseQueryToResponse
 
 
 def apiPageGET():

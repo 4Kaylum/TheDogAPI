@@ -1,18 +1,4 @@
-from os.path import dirname, realpath
-from flask import g
-from sqlite3 import connect
-from .DatabaseBackend import*
-
-
-here = dirname(realpath(__file__))
-DATABASE = '{}/../../DogPictures.db'.format(here)
-
-
-def getDatabseVariable():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = connect(DATABASE)
-    return db
+from .InputVerification import*
 
 
 def saveNewToDatabse(database, request):

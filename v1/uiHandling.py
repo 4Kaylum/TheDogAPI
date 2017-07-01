@@ -1,5 +1,5 @@
 from flask import Blueprint
-from .Utils.DatabaseFunctions import*
+from .Utils.DatabaseQueries import*
 
 
 ui_v1 = Blueprint(
