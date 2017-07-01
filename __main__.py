@@ -1,12 +1,19 @@
 from json import dumps
 from sqlite3 import connect
 from flask import Flask, request, g, redirect
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from Utils.AllUtils import makeJsonResponse
 from Utils.DatabaseFunctions import*
 from Utils.DataReturns import databaseQueryToResponse
 
 
 app = Flask(__name__)
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
+    default_limits=["1 per second"],
+)
 DATABASE = './DogPictures.db'
 
 
@@ -22,6 +29,16 @@ def closeDatabaseConnection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
+
+
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    return {
+            'data': [],
+            'count': 0,
+            'error': 'Rate limit exceeded',
+            'api_version': 'v1'
+        }, 429
 
 
 @app.route('/')
