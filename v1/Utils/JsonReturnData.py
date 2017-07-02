@@ -1,7 +1,7 @@
 from .AllUtils import makeJsonResponse
 
 
-def databaseQueryToDict(query, apiVersion):
+def databaseQueryToDict(query, apiVersion='v1'):
     v = ['id', 'url', 'time', 'format', 'author_ip', 'verified']
     data = {'data':[], 'count':0, 'error':None, 'api_version': apiVersion}
     for databaseItem in query:
@@ -16,7 +16,7 @@ def databaseQueryToDict(query, apiVersion):
     return data
 
 
-def databaseQueryToResponse(query, apiVersion):
+def databaseQueryToResponse(query, apiVersion='v1'):
     v = databaseQueryToDict(query, apiVersion)
     return makeJsonResponse(v)
 

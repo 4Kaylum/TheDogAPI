@@ -1,12 +1,13 @@
 from json import dumps
-from flask import Flask, g
+from flask import Flask, g, render_template, Blueprint
 
 
 app = Flask(__name__)
-from .v1.apiHandling import api_v1
-from .v1.uiHandling import ui_v1
-app.register_blueprint(api_v1)
-app.register_blueprint(ui_v1)
+root_pages = Blueprint(
+    'root_pages', 
+    __name__,
+    template_folder='templates'
+)
 
 
 @app.teardown_appcontext
@@ -26,10 +27,17 @@ def ratelimit_handler(e):
         }, 429
 
 
-@app.route('/')
+@root_pages.route('/')
 def mainPage():
-    return 'This is the main page.'
+    return render_template('index.html')
+
+
+from v1.apiHandling import api_v1
+from v1.uiHandling import ui_v1
+app.register_blueprint(api_v1)
+app.register_blueprint(ui_v1)
+app.register_blueprint(root_pages)
 
 
 if __name__ == '__main__': 
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=80, debug=False)
