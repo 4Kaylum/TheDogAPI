@@ -1,5 +1,5 @@
 from json import dumps
-from flask import Flask, g, render_template, Blueprint
+from flask import Flask, g, render_template, Blueprint, request, make_response
 
 
 app = Flask(__name__)
@@ -30,6 +30,19 @@ def ratelimit_handler(e):
 @root_pages.route('/')
 def mainPage():
     return render_template('index.html')
+
+
+@root_pages.route('/cookies')
+def cookiePage():
+    return render_template('set_cookie.html', cookies=request.cookies)
+
+
+@root_pages.route('/cookies', methods=['POST'])
+def cookiePagePost():
+    form = request.form
+    v = make_response(render_template('set_cookie.html', cookies=request.cookies))
+    v.set_cookie(form['CookieName'], form['CookieValue'])
+    return v
 
 
 from v1.apiHandling import api_v1
