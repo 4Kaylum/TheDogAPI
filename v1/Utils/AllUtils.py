@@ -6,6 +6,18 @@ from sqlite3 import connect
 
 here = dirname(realpath(__file__))
 DATABASE = '{}/../../DogPictures.db'.format(here)
+USERTOKENS = '{}/../../UserTokens'.format(here)
+
+
+class DogObject(object):
+
+    def __init__(self, d, apiVersion):
+        self.api_version = apiVersion
+        self.id = d['id']
+        self.url = d['url']
+        self.time = d['time']
+        self.format = d['format']
+        self.verified = d['verified']
 
 
 def makeJsonResponse(jsonData):
@@ -19,3 +31,11 @@ def getDatabseVariable():
     if db is None:
         db = g._database = connect(DATABASE)
     return db
+
+
+def verifyToken(request):
+    token = request.cookies.get('token')
+    with open(USERTOKENS) as a:
+        if token in a.read().split('\n'):
+            return True 
+    return False

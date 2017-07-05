@@ -72,12 +72,27 @@ def getAnyRandomDogFromDatabase(database, limit:int=1):
     return x
 
 
+def getUnverifiedDogFromDatabase(database, limit:int=1):
+
+    # Get the item
+    c = database.execute('SELECT * FROM DogPictures WHERE verified=0 ORDER BY RANDOM() LIMIT ?', (limit,))
+    x = c.fetchall()
+    return x
+
+
 def getSpecificDogFromDatabase(database, dogNumber:str):
 
     # Get the item
     c = database.execute('SELECT * FROM DogPictures WHERE id=?', (dogNumber,))
     x = c.fetchall()
     return x
+
+
+def verifyDogFromDatabase(database, dogNumber:str):
+
+    # Get the item
+    database.execute('UPDATE DogPictures SET verified=1 WHERE id=?', (dogNumber,))
+    database.commit()
 
 
 def countTheDatabaseContent(database):

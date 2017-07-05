@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template
-from .Utils.AllUtils import getDatabseVariable
-from .Utils.DatabaseQueries import getRandomVerifiedDogFromDatabase, getSpecificDogFromDatabase
-from .Utils.JsonReturnData import databaseQueryToDict
+from flask import Blueprint, render_template, request
+from .Utils.AllUtils import getDatabseVariable, verifyToken
+from .Utils.DatabaseQueries import verifyDogFromDatabase, getRandomVerifiedDogFromDatabase, getSpecificDogFromDatabase, getUnverifiedDogFromDatabase
+from .Utils.JsonReturnData import databaseQueryToDict, databaseQueryToObjects
 
 
 ui_v1 = Blueprint(
@@ -34,3 +34,34 @@ def doggoPageByID(dogPageID):
 @ui_v1.route('/v1/submit')
 def submitPage():
     return render_template('submit.html')
+
+
+@ui_v1.route('/v1/verify', methods=['GET'])
+def verifyPage():
+    if not verifyToken(request):
+        return render_template('unavailable.html'), 403
+
+    database = getDatabseVariable()
+    dogThing = getUnverifiedDogFromDatabase(database)
+    dogData = databaseQueryToObjects(dogThing, 'v1')
+    return render_template('verify.html', dog=dogData[0])
+
+
+@ui_v1.route('/v1/verify', methods=['POST'])
+def verifyPagePost():
+    if not verifyToken(request):
+        return render_template('unavailable.html'), 403
+
+    form = request.form
+    dogID = form['dogID']
+    action = form['Action']
+    database = getDatabseVariable()
+    if action == 'Accept':
+        verifyDogFromDatabase(database, dogID)
+    else:
+        pass
+
+    dogThing = getUnverifiedDogFromDatabase(database)
+    dogData = databaseQueryToObjects(dogThing, 'v1')
+    return render_template('verify.html', dog=dogData[0])
+

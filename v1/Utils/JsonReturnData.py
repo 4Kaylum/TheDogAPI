@@ -1,4 +1,4 @@
-from .AllUtils import makeJsonResponse
+from .AllUtils import makeJsonResponse, DogObject
 
 
 def databaseQueryToDict(query, apiVersion='v1'):
@@ -13,10 +13,16 @@ def databaseQueryToDict(query, apiVersion='v1'):
         data['data'].append(b)
 
     data['count'] = len(data['data'])
+    data['api_version'] = apiVersion
     return data
 
 
 def databaseQueryToResponse(query, apiVersion='v1'):
     v = databaseQueryToDict(query, apiVersion)
     return makeJsonResponse(v)
+
+
+def databaseQueryToObjects(query, apiVersion='v1'):
+    v = databaseQueryToDict(query, apiVersion)
+    return [DogObject(i, apiVersion) for i in v['data']]
 
