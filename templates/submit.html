@@ -31,6 +31,7 @@
                 <li><a href="/">Index</a></li>
                 <li><a href="http://docs.dogapi1.apiary.io/">Documentation</a></li>
                 <li><a href="/v1/dog">Dog Picture</a></li>
+                <li class="active"><a href="/v1/submit">Submit</a></li>
                 <li><a href="/cookies">Set Cookie</a></li>
             </ul>
         </div>
@@ -56,12 +57,6 @@
             </form>
         </div>
     </div> 
-
-    <div class="row">
-        <div class="column col-sm-12">
-            <pre><code id="changable"></code></pre>
-        </div>
-    </div>
 </div>
 
 
@@ -73,12 +68,11 @@ $('#thisIsANiceForm').submit(function() {
     var b = encodeURI(a);
 
     // Send a POST request
-    alert('adas');
     $.post("/api/v1/dog?url="+b+"/", {}, function(data, status) {
-        alert(data);
-        $('#changable').innerHTML = data;
+        alert('Submission succeeded!');
+    }).error(function() {
+        alert('Submission failed!');
     });
-    alert('fgvbc');
 
     return false;
 })
