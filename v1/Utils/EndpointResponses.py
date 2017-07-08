@@ -1,6 +1,6 @@
 from flask import request
 from .AllUtils import makeJsonResponse, getDatabseVariable
-from .DatabaseQueries import getRandomVerifiedDogFromDatabase, getAnyRandomDogFromDatabase, saveNewToDatabse
+from .DatabaseQueries import getRandomVerifiedDogFromDatabase, getUnverifiedDogFromDatabase, saveNewToDatabse
 from .JsonReturnData import databaseQueryToResponse
 
 
@@ -13,7 +13,7 @@ def apiPageGET():
     if verif:
         x = getRandomVerifiedDogFromDatabase(database, limit)
     else:
-        x = getAnyRandomDogFromDatabase(database, limit)
+        x = getUnverifiedDogFromDatabase(database, limit)
     return databaseQueryToResponse(x, 'v1')
 
 

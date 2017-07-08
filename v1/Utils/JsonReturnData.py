@@ -2,7 +2,7 @@ from .AllUtils import makeJsonResponse, DogObject
 
 
 def databaseQueryToDict(query, apiVersion='v1'):
-    v = ['id', 'url', 'time', 'format', 'author_ip', 'verified']
+    v = ['id', 'url', 'time', 'format', 'author_ip', 'verified', 'checked']
     data = {'data':[], 'count':0, 'error':None, 'api_version': apiVersion}
     for databaseItem in query:
         b = {}

@@ -18,6 +18,7 @@ class DogObject(object):
         self.time = d['time']
         self.format = d['format']
         self.verified = d['verified']
+        self.checked = d['checked']
 
 
 def makeJsonResponse(jsonData):

@@ -27,16 +27,13 @@ def saveNewToDatabse(database, request):
     # Get the author's IP
     authIP = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
 
-    # If it's me, auto-verify
-    verif = 1 if authIP == '127.0.0.1' else 0
-
     # Get the current time
     currentTime = getCurrentTime()
 
     # Plonk it into the database
     database.execute(
-        'INSERT INTO DogPictures(id, url, time, format, author_ip, verified) VALUES (?, ?, ?, ?, ?, ?)', 
-        (newID, newThing.get('url'), currentTime, urlFormat, authIP, verif)
+        'INSERT INTO DogPictures(id, url, time, format, author_ip, verified, checked) VALUES (?, ?, ?, ?, 0, 0)', 
+        (newID, newThing.get('url'), currentTime, urlFormat, authIP)
     )
 
     # Save file
@@ -49,7 +46,8 @@ def saveNewToDatabse(database, request):
             'url': newThing.get('url', None),
             'time': currentTime,
             'format': urlFormat,
-            'verified': verif
+            'verified': 0,
+            'checked': 0
         }],
         'count': 1,
         'error': None
@@ -59,15 +57,7 @@ def saveNewToDatabse(database, request):
 def getRandomVerifiedDogFromDatabase(database, limit:int=1):
 
     # Get the item
-    c = database.execute('SELECT * FROM DogPictures WHERE verified=1 ORDER BY RANDOM() LIMIT ?', (limit,))
-    x = c.fetchall()
-    return x
-
-
-def getAnyRandomDogFromDatabase(database, limit:int=1):
-
-    # Get the item
-    c = database.execute('SELECT * FROM DogPictures ORDER BY RANDOM() LIMIT ?', (limit,))
+    c = database.execute('SELECT * FROM DogPictures WHERE checked=1 ORDER BY RANDOM() LIMIT ?', (limit,))
     x = c.fetchall()
     return x
 
@@ -75,7 +65,7 @@ def getAnyRandomDogFromDatabase(database, limit:int=1):
 def getUnverifiedDogFromDatabase(database, limit:int=1):
 
     # Get the item
-    c = database.execute('SELECT * FROM DogPictures WHERE verified=0 ORDER BY RANDOM() LIMIT ?', (limit,))
+    c = database.execute('SELECT * FROM DogPictures WHERE checked=0 ORDER BY RANDOM() LIMIT ?', (limit,))
     x = c.fetchall()
     return x
 
@@ -92,12 +82,20 @@ def verifyDogFromDatabase(database, dogNumber:str):
 
     # Get the item
     database.execute('UPDATE DogPictures SET verified=1 WHERE id=?', (dogNumber,))
+    database.execute('UPDATE DogPictures SET checked=1 WHERE id=?', (dogNumber,))
+    database.commit()
+
+
+def unverifyDogFromDatabase(database, dogNumber:str):
+
+    # Get the item
+    database.execute('UPDATE DogPictures SET checked=1 WHERE id=?', (dogNumber,))
     database.commit()
 
 
 def countTheDatabaseContent(database):
 
     # Get the item
-    c = database.execute('SELECT COUNT(id) FROM DogPictures')
+    c = database.execute('SELECT COUNT(id) FROM DogPictures WHERE verified=1')
     x = c.fetchall()
     return x[0][0]

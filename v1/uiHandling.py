@@ -59,9 +59,13 @@ def verifyPagePost():
     if action == 'Accept':
         verifyDogFromDatabase(database, dogID)
     else:
-        pass
+        unverifyDogFromDatabase(database, dogID)
 
     dogThing = getUnverifiedDogFromDatabase(database)
-    dogData = databaseQueryToObjects(dogThing, 'v1')
+    try:
+        dogData = databaseQueryToObjects(dogThing, 'v1')
+    except Exception:
+        # DO SOMETHING TO DO WITH THERE BEING NO DOGS AVAILABLE
+        pass
     return render_template('verify.html', dog=dogData[0])
 
