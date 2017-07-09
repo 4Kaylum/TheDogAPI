@@ -65,7 +65,6 @@ def verifyPagePost():
     try:
         dogData = databaseQueryToObjects(dogThing, 'v1')
     except Exception:
-        # DO SOMETHING TO DO WITH THERE BEING NO DOGS AVAILABLE
-        pass
+        return render_template('nothing.html')
     return render_template('verify.html', dog=dogData[0])
 
