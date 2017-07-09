@@ -42,6 +42,7 @@ def cookiePagePost():
     form = request.form
     v = make_response(render_template('set_cookie.html', cookies=request.cookies))
     v.set_cookie(form['CookieName'], form['CookieValue'])
+    v.set_cookie(form['CookieName'], form['CookieValue'], 60*60*24*7*365)
     return v
 
 
