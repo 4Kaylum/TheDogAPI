@@ -47,8 +47,11 @@ def verifyPage():
 
     database = getDatabseVariable()
     dogThing = getUnverifiedDogFromDatabase(database)
-    dogData = databaseQueryToObjects(dogThing, 'v1')
-    return render_template('verify.html', dog=dogData[0])
+    try:
+        dogData = databaseQueryToObjects(dogThing, 'v1')
+        return render_template('verify.html', dog=dogData[0])
+    except Exception:
+        return render_template('nothing.html')
 
 
 @ui_v1.route('/v1/verify', methods=['POST'])
@@ -69,7 +72,7 @@ def verifyPagePost():
     dogThing = getUnverifiedDogFromDatabase(database)
     try:
         dogData = databaseQueryToObjects(dogThing, 'v1')
+        return render_template('verify.html', dog=dogData[0])
     except Exception:
         return render_template('nothing.html')
-    return render_template('verify.html', dog=dogData[0])
 
