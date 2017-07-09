@@ -42,30 +42,23 @@
 
     <div class="page-header">
         <h1>The Dog API</h1>
-        <p>Verification of Images</p>
+        <p>API Versions</p>
     </div>
 
     <div class="row">
-        <div class="column col-sm-6">
-            <h3>Verification</h3>
-            <form action="/v1/verify" method="post">
-            <input type="text" name="dogID" value="{{ dog.id }}" style="display:none">
-            <table>
-                <tr>
-                <td>
-                    <input type="submit" name="Action" value="Accept" class="btn btn-success">
-                </td>
-                <td>
-                    <input type="submit" name="Action" value="Deny" class="btn btn-danger">
-                </td>
-                </tr>
-            </table>
-            </form>
-        </div>
-        <div class="column col-sm-6">
-            <img src="{{ dog.url }}" width="100%">
+        <div class="column col-sm-12">
+            <p>Unsurprisingly, this API site has an API. Weird, I know, but it is what it is. As time goes on, I'm probably going to have to rewrite the API to be able to handle different kinds of requests and change the backend database and things like that. As such, the API has different versions. These will be listed below. I recommend the latest version, as that's always going to be the most supported version, but feel free to use any that you like. Click whatever version of API you want to use, and that'll take you to that version's documentation.</p>
         </div>
     </div> 
+    <div class="row">
+        <div class="column col-sm-12">
+            <ul>
+            <li><h3><a href="/api_v1">
+                API v1
+            </a></h3></li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 

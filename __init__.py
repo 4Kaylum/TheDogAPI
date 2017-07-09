@@ -1,5 +1,5 @@
 from json import dumps
-from flask import Flask, g, render_template, Blueprint, request, make_response
+from flask import Flask, g, render_template, Blueprint, request, make_response, Redirect
 
 
 app = Flask(__name__)
@@ -41,9 +41,18 @@ def cookiePage():
 def cookiePagePost():
     form = request.form
     v = make_response(render_template('set_cookie.html', cookies=request.cookies))
-    v.set_cookie(form['CookieName'], form['CookieValue'])
     v.set_cookie(form['CookieName'], form['CookieValue'], 60*60*24*7*365)
     return v
+
+
+@root_pages.route('/doggo')
+def doggoPage():
+    return Redirect('/v1/dog')
+
+
+@root_pages.route('/api')
+def apiPage():
+    return render_template('api.html')
 
 
 from .v1.apiHandling import api_v1
