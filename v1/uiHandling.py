@@ -12,6 +12,7 @@ ui_v1 = Blueprint(
 
 
 @ui_v1.route('/v1/dog')
+@ui_v1.route('/v1/dog/')
 def doggoPage():
     database = getDatabseVariable()
     dogThing = getRandomVerifiedDogFromDatabase(database)
@@ -22,6 +23,7 @@ def doggoPage():
 
 
 @ui_v1.route('/v1/dog/<dogPageID>')
+@ui_v1.route('/v1/dog/<dogPageID>/')
 def doggoPageByID(dogPageID):
     database = getDatabseVariable()
     dogThing = getSpecificDogFromDatabase(database, dogPageID)
@@ -32,11 +34,13 @@ def doggoPageByID(dogPageID):
 
 
 @ui_v1.route('/v1/submit')
+@ui_v1.route('/v1/submit/')
 def submitPage():
     return render_template('submit.html')
 
 
 @ui_v1.route('/v1/verify', methods=['GET'])
+@ui_v1.route('/v1/verify/', methods=['GET'])
 def verifyPage():
     if not verifyToken(request):
         return render_template('unavailable.html'), 403
@@ -48,6 +52,7 @@ def verifyPage():
 
 
 @ui_v1.route('/v1/verify', methods=['POST'])
+@ui_v1.route('/v1/verify/', methods=['POST'])
 def verifyPagePost():
     if not verifyToken(request):
         return render_template('unavailable.html'), 403
