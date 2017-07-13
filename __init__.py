@@ -1,5 +1,5 @@
 from json import dumps
-from flask import Flask, g, render_template, Blueprint, request, make_response, redirect
+from flask import Flask, g, render_template, Blueprint, request, make_response, redirect, send_from_directory
 
 
 app = Flask(__name__)
@@ -57,6 +57,12 @@ def doggoPage():
 @root_pages.route('/api/')
 def apiPage():
     return render_template('api.html')
+
+
+@root_pages.route('/robots.txt')
+@root_pages.route('/sitemap.xml')
+def robotsPage():
+    return send_from_directory(app.static_folder, request.path[1:])
 
 
 from .v1.apiHandling import api_v1

@@ -1,0 +1,3 @@
+User-Agent: *
+Disallow: /api/v1/count
+Disallow: /api/v1/dog
