@@ -8,6 +8,7 @@ root_pages = Blueprint(
     __name__,
     template_folder='templates'
 )
+app.config['SERVER_NAME'] = 'thedogapi.co.uk'
 
 
 @app.teardown_appcontext
@@ -50,11 +51,11 @@ def cookiePagePost():
 @root_pages.route('/doggo')
 @root_pages.route('/doggo/')
 def doggoPage():
-    return redirect('/v1/dog')
+    return redirect('/ui/v1/dog')
 
 
-@root_pages.route('/api')
-@root_pages.route('/api/')
+@root_pages.route('/dogumentation')
+@root_pages.route('/dogumentation/')
 def apiPage():
     return render_template('api.html')
 

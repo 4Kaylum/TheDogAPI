@@ -11,8 +11,14 @@ ui_v1 = Blueprint(
 )
 
 
-@ui_v1.route('/v1/dog')
-@ui_v1.route('/v1/dog/')
+@ui_v1.route('/ui/v1')
+@ui_v1.route('/ui/v1/')
+def documentationPage():
+    return render_template('api_v1.html')
+
+
+@ui_v1.route('/ui/v1/dog')
+@ui_v1.route('/ui/v1/dog/')
 def doggoPage():
     database = getDatabseVariable()
     dogThing = getRandomVerifiedDogFromDatabase(database)
@@ -22,8 +28,8 @@ def doggoPage():
     return render_template('dog.html', dogID=dogID, dogURL=dogURL)
 
 
-@ui_v1.route('/v1/dog/<dogPageID>')
-@ui_v1.route('/v1/dog/<dogPageID>/')
+@ui_v1.route('/ui/v1/dog/<dogPageID>')
+@ui_v1.route('/ui/v1/dog/<dogPageID>/')
 def doggoPageByID(dogPageID):
     database = getDatabseVariable()
     dogThing = getSpecificDogFromDatabase(database, dogPageID)
@@ -33,14 +39,14 @@ def doggoPageByID(dogPageID):
     return render_template('dog.html', dogID=dogID, dogURL=dogURL)
 
 
-@ui_v1.route('/v1/submit')
-@ui_v1.route('/v1/submit/')
+@ui_v1.route('/ui/v1/submit')
+@ui_v1.route('/ui/v1/submit/')
 def submitPage():
     return render_template('submit.html')
 
 
-@ui_v1.route('/v1/verify', methods=['GET', 'POST'])
-@ui_v1.route('/v1/verify/', methods=['GET', 'POST'])
+@ui_v1.route('/ui/v1/verify', methods=['GET', 'POST'])
+@ui_v1.route('/ui/v1/verify/', methods=['GET', 'POST'])
 def verifyPage():
 
     # Verify the user's token/cookie
