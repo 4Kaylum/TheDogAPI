@@ -48,8 +48,9 @@
     <div class="row">
         <div class="column col-sm-6">
             <h3>Verification</h3>
-            <form action="/v1/verify" method="post">
+            <form action="." method="post">
             <input type="text" name="dogID" value="{{ dog.id }}" style="display:none">
+            <p>Verify or deny dog ID: <code>{{ dog.id }}</code></p>
             <table>
                 <tr>
                 <td>

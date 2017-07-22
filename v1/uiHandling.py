@@ -39,12 +39,30 @@ def submitPage():
     return render_template('submit.html')
 
 
-@ui_v1.route('/v1/verify', methods=['GET'])
-@ui_v1.route('/v1/verify/', methods=['GET'])
+@ui_v1.route('/v1/verify', methods=['GET', 'POST'])
+@ui_v1.route('/v1/verify/', methods=['GET', 'POST'])
 def verifyPage():
+
+    # Verify the user's token/cookie
     if not verifyToken(request):
         return render_template('unavailable.html'), 403
 
+    # Check to see if a dog needs to be verified
+    if request.method == 'POST':
+
+        # Get the form
+        form = request.form
+        dogID = form['dogID']
+        action = form['Action']
+
+        # Change the database
+        database = getDatabseVariable()
+        if action == 'Accept':
+            verifyDogFromDatabase(database, dogID)
+        else:
+            unverifyDogFromDatabase(database, dogID)
+
+    # Get a new doggerino from the database to verify
     database = getDatabseVariable()
     dogThing = getUnverifiedDogFromDatabase(database)
     try:
@@ -52,27 +70,3 @@ def verifyPage():
         return render_template('verify.html', dog=dogData[0])
     except Exception:
         return render_template('nothing.html')
-
-
-@ui_v1.route('/v1/verify', methods=['POST'])
-@ui_v1.route('/v1/verify/', methods=['POST'])
-def verifyPagePost():
-    if not verifyToken(request):
-        return render_template('unavailable.html'), 403
-
-    form = request.form
-    dogID = form['dogID']
-    action = form['Action']
-    database = getDatabseVariable()
-    if action == 'Accept':
-        verifyDogFromDatabase(database, dogID)
-    else:
-        unverifyDogFromDatabase(database, dogID)
-
-    dogThing = getUnverifiedDogFromDatabase(database)
-    try:
-        dogData = databaseQueryToObjects(dogThing, 'v1')
-        return render_template('verify.html', dog=dogData[0])
-    except Exception:
-        return render_template('nothing.html')
-
