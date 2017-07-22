@@ -1,5 +1,6 @@
-from requests import get
-from imghdr import what
+from re import search, IGNORECASE
+# from requests import get
+# from imghdr import what
 from datetime import datetime 
 from random import choice
 
@@ -8,9 +9,12 @@ IDSTRING = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-_'
 
 
 def verifyImage(imageURL) -> bool:
-    site = get(imageURL)
-    data = site.content
-    return what('', h=data)
+    # site = get(imageURL)
+    # data = site.content
+    # return what('', h=data)
+    m = r'.+(png|jp[e]*g|gif[v]*)$'
+    if ' ' in imageURL: return False
+    return bool(search(m, imageURL, IGNORECASE))
 
 
 def getNewID() -> str:

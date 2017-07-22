@@ -32,7 +32,7 @@ def saveNewToDatabse(database, request):
 
     # Plonk it into the database
     database.execute(
-        'INSERT INTO DogPictures(id, url, time, format, author_ip, verified, checked) VALUES (?, ?, ?, ?, 0, 0)', 
+        'INSERT INTO DogPictures(id, url, time, format, author_ip, verified, checked) VALUES (?, ?, ?, ?, ?, 0, 0)', 
         (newID, newThing.get('url'), currentTime, urlFormat, authIP)
     )
 
