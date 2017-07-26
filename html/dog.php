@@ -1,8 +1,8 @@
 <?php
-    $PageName = 'Dog';
+    $pageName = 'Dog';
     include('PageSegments/pageHead.php');
 
-    $ActivePage = 'Dog Picture';
+    $activePage = 'Dog Picture';
     include('PageSegments/navbar.php');
 ?>
 

@@ -25,7 +25,7 @@
                     $arrayLength = sizeof($navItems);
 
                     for ($i = 0; $i < $arrayLength; $i++) {
-                        if ($navItems[$i][0] == $ActivePage) {
+                        if ($navItems[$i][0] == $activePage) {
                             echo '<li class="active"><a href="'.$navItems[$i][1].'">'.$navItems[$i][0].'</a></li>';
                         }
                         else {

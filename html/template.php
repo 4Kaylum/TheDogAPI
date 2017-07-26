@@ -1,8 +1,8 @@
 <?php
-    $PageName = 'Index';
+    $pageName = '';
     include('PageSegments/pageHead.php');
 
-    $ActivePage = 'Index';
+    $activePage = '';
     include('PageSegments/navbar.php');
 ?>
 

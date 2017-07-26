@@ -3,7 +3,7 @@
 <head>
 
     <?php
-        echo '<title>'.$pageName.' | TheDogAPI.co.uk</title>'
+        echo '<title>' . $pageName . ' | TheDogAPI.co.uk</title>'
     ?>
 
     <meta charset="utf-8">
