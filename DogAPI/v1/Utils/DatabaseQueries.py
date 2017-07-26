@@ -57,7 +57,7 @@ def saveNewToDatabse(database, request):
 def getRandomVerifiedDogFromDatabase(database, limit:int=1):
 
     # Get the item
-    c = database.execute('SELECT * FROM DogPictures WHERE checked=1 ORDER BY RANDOM() LIMIT ?', (limit,))
+    c = database.execute('SELECT * FROM DogPictures WHERE verified=1 ORDER BY RANDOM() LIMIT ?', (limit,))
     x = c.fetchall()
     return x
 
@@ -65,7 +65,7 @@ def getRandomVerifiedDogFromDatabase(database, limit:int=1):
 def getUnverifiedDogFromDatabase(database, limit:int=1):
 
     # Get the item
-    c = database.execute('SELECT * FROM DogPictures WHERE checked=0 ORDER BY RANDOM() LIMIT ?', (limit,))
+    c = database.execute('SELECT * FROM DogPictures WHERE verified=0 ORDER BY RANDOM() LIMIT ?', (limit,))
     x = c.fetchall()
     return x
 
