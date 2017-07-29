@@ -8,7 +8,7 @@
 
     echo '<div class="container bodytext">';
 
-    include('Utilities/getDog.php');
+    include('/../backend/getDog.php');
     $dog = getRandomDog();
 
     $subheader = 'Dog ID: <a href="/ui/v1/dog/' . $dog->id . '"><code>' . $dog->id . '</code></a>';
