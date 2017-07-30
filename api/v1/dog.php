@@ -1,8 +1,9 @@
 <?php
 
     include('/../../backend/getDog.php');
-    include('/../../backend/outputs.php');
+    include('/../../backend/outputObject.php');
     $dogObject = getRandomDog();
-    echo jsonOutputDog(Array($dogObject));
+    $jsonObject = new JsonOutput();
+    echo $jsonObject->fromDogList(Array($dogObject), 'v1');
 
 ?>
