@@ -18,7 +18,7 @@
                         array('Index', '/'),
                         array('Dogumentation', 'http://docs.dogapi1.apiary.io/'),
                         array('Dog Picture', '/ui/v1/dog'),
-                        array('Submit', '/ui/v1/submit'),
+                        // array('Submit', '/ui/v1/submit'),
                         array('Set Cookies', '/cookies')
                     );
 
