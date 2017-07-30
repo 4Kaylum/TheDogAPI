@@ -1,9 +1,8 @@
 <?php
 
-    require('/../../backend/getDog.php');
-    require('/../../backend/outputs.php');
+    include('/../../backend/getDog.php');
+    include('/../../backend/outputs.php');
     $dogObject = getRandomDog();
-    $json = json_encode($dogObject);
-    echo jsonOutput($json);
+    echo jsonOutputDog(Array($dogObject));
 
 ?>
