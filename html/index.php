@@ -17,6 +17,6 @@
 
     include ('PageSegments/fullPage.php');
 
-    echo '</div></body></html>'
+    echo '</div></body></html>';
 
 ?>
