@@ -1,5 +1,4 @@
 __pycache__
 DogPictures.db
 UserTokens
-mysqlPassword.ini
-_DogAPI
+backend/Configuration/config.php

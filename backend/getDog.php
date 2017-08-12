@@ -1,30 +1,65 @@
 <?php
 
-   include('dogObject.php');
-   include('databaseHandling.php');
+    include('dogObject.php');
+    include('Configuration/config.php');
 
+    function getRandomDog() {
 
-   function getRandomDog() {
+        try {
 
-      // $sql = 'SELECT * FROM DogPictures WHERE verified=1 ORDER BY RAND() LIMIT 1;';
-      // $values = runSQL($sql);
+            $dbh = new PDO("$DB_TYPE:host=$DB_HOST; dbname=$DB_NAME;", $DB_USER, $DB_PASS); 
 
-      $values = Array('-2nGCLJMAN9', 'https://i.redd.it/kfm062pie0bz.jpg', '2017-07-22T04:16:42.474949', 'jpg', '0.0.0.0', 1, 1);
-      $dogItem = new Dog($values);
+            // Get a dog from the database
+            $stmt = $dbh->prepare('SELECT * FROM DogPictures WHERE verified=1 ORDER BY RAND() LIMIT 1;');
+            $stmt->execute();
 
-      return $dogItem;
-   }
+            // Grab the info from the row
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $iterator = new IteratorIterator($stmt);
+            foreach ($iterator as $row) {
 
-   function getSpecificDog($dogID) {
+                // Turn it into an object
+                $dog = new Dog();
+                $dog->fromDatabase($row);
 
-      // $escaped = mysql_real_escape_string($dogID);
-      // $sql = 'SELECT * FROM DogPictures WHERE id=' . $escaped . ';';
-      // $values = runSQL($sql);  
+                // Return it
+                return $dog;
 
-      $values = Array('-2nGCLJMAN9', 'https://i.redd.it/kfm062pie0bz.jpg', '2017-07-22T04:16:42.474949', 'jpg', '0.0.0.0', 1, 1);
-      $dogItem = new Dog($values);
+            }
+        }
+        catch (Exception $e) {
+            echo '<p>', $e->getMessage(), '</p>';
+        }
+    }
 
-      return $dogItem;
-   }
+    function getSpecificDog($dogID) {
+
+        try {
+
+            $dbh = new PDO("$DB_TYPE:host=$DB_HOST; dbname=$DB_NAME;", $DB_USER, $DB_PASS); 
+
+            // Get a dog from the database
+            $stmt = $dbh->prepare('SELECT * FROM DogPictures WHERE id=:id ORDER BY RAND() LIMIT 1;');
+            $stmt->bindParam(':id', $dogID, PDO::PARAM_STR);
+            $stmt->execute();
+
+            // Grab the info from the row
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $iterator = new IteratorIterator($stmt);
+            foreach ($iterator as $row) {
+
+                // Turn it into an object
+                $dog = new Dog();
+                $dog->fromDatabase($row);
+
+                // Return it
+                return $dog;
+
+            }
+        }
+        catch (Exception $e) {
+            echo '<p>', $e->getMessage(), '</p>';
+        }
+    }
 
 ?>
