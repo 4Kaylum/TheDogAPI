@@ -9,8 +9,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*)$ $1.php
 
-DirectoryIndex index.php
-
+DirectoryIndex home.php
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^dog/(.*)$ /dog.php?id=$1 [L,QSA,NC]

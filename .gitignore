@@ -1,7 +1,7 @@
 __pycache__
 DogPictures.db
 UserTokens
-backend/Configuration/config.php
+backend/config.php
 i/*.*
 !i/.htaccess
 

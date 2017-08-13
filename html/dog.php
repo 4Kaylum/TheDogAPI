@@ -1,14 +1,16 @@
 <?php
 
-    include('/../backend/getDog.php');
+    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/getDog.php';
 
-    try {
-        $id = $_GET['id'];
+    $id = $_GET['id'];
+    if ($id != '') {
         $dog = getSpecificDog($id);
     }
-    catch (Exception $e) {
+    else {
         $dog = getRandomDog();
     }
+
+    // $dog = getRandomDog();
 
     include('PageSegments/Page.php');
     $page = new Page(
@@ -18,5 +20,6 @@
         '<img src="' . $dog->url . '" style="width:100%;border-radius:30px">'
     );
     $page->output();
+
 
 ?>
