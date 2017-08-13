@@ -25,9 +25,8 @@ class Page {
         $navItems = array(
             array('Index', '/'),
             array('Dogumentation', 'http://docs.dogapi1.apiary.io/'),
-            array('Dog Picture', '/ui/v1/dog'),
-            array('Set Cookies', '/cookies')
-        );
+            array('Dog Picture', '/ui/v1/dog')
+        ); // array('Set Cookies', '/cookies')
 
         // Generate each item
         $arrayLength = sizeof($navItems);
