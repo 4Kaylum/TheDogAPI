@@ -113,6 +113,27 @@
         }
     }
 
+    function checkDogByID($dogID, $setVerifiedTo) {
+
+        try {
+
+            $dbh = new PDO(
+                $GLOBALS['DB_TYPE'] . ':host=' . $GLOBALS['DB_HOST'] . '; dbname=' . $GLOBALS['DB_NAME'] . ';', 
+                $GLOBALS['DB_USER'], 
+                $GLOBALS['DB_PASS']
+            ); 
+
+            // Get a dog from the database
+            $stmt = $dbh->prepare('UPDATE DogPictures SET verified=:ver, checked=1 WHERE id=:id;');
+            $stmt->bindParam(':ver', $setVerifiedTo, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $dogID, PDO::PARAM_STR);
+            $stmt->execute();
+        }
+        catch (Exception $e) {
+            echo '<p>', $e->getMessage(), '</p>';
+        }
+    }
+
     function insertIntoDatabase($fileData) {
 
         $targetDir = '/var/www/i/';

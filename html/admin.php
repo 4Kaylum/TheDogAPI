@@ -10,6 +10,12 @@
         die('You have been redirected.');
     }
 
+    $setVerifiedTo = ($_POST['action'] == 'Allow') ? 1 : 0;
+    $dogToChange = $_POST['dogID'];
+    if ($dogToChange != null) {
+        checkDogByID($dogToChange, $setVerifiedTo);
+    }
+
     $page = new Page(
         'Console',
         'Welcome, ' . $loginData['username']
@@ -17,9 +23,45 @@
 
     $dogArray = getAllUnchecked();
     if (sizeof($dogArray) > 0) {
-        $page->rawPage = '<table><th><td>ID</td><td>URL</td></th>';
+        $page->rawPage = '
+            <style> 
+            input[type="submit"] {
+                border: 0;
+                background: none;
+                box-shadow:none;
+                border-radius: 0px;
+            }
+            tr, th {
+                text-align: center;
+            }
+            .notHeader {
+                table-layout: initial;
+                width: 100%;
+                margin-top:20px;
+            }</style>
+            <table class="notHeader">
+                <tr>
+                    <th>ID</th>
+                    <th>URL</th>
+                    <th>IP</th>
+                    <th>Actions</th>
+                </tr>
+        ';
         foreach ($dogArray as $dog) {
-            $page->rawPage .= '<tr><td>' . $dog->id . '</td><td>' . $dog->url . '</td></tr>';
+            $page->rawPage .= '
+                <form method="POST">
+                    <tr>
+                        <td>' . $dog->id . '</td>
+                        <td><a href="' . $dog->url . '">/' . end(explode('/', $dog->url)) . '</a></td>
+                        <td>' . $dog->author_ip . '</td>
+                        <td>
+                            <input style="background-color:green;color:white;font-weight:bold;" type="submit" name="action" value="Allow">
+                            <input style="background-color:red;color:white;font-weight:bold;" type="submit" name="action" value="Deny">
+                            <input type="hidden" name="dogID" value="' . $dog->id . '">
+                        </td>
+                    </tr>
+                </form>
+            ';
         }
         $page->rawPage .= '</table>';
     }
