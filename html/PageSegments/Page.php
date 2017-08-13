@@ -5,6 +5,7 @@ class Page {
     public $subheader;
     public $pageText;
     public $pageName;
+    public $rawPage = false;
 
     function __construct ($pageName, $subheader, $pageText) {
         $this->pageName = $pageName;
@@ -65,6 +66,7 @@ class Page {
         // Generate the nav items array
         $navItems = array(
             array('Index', '/'),
+            array('Documentation', '/documentation.php'),
             array('Dog Picture', '/dog.php')
         );
 
@@ -78,9 +80,13 @@ class Page {
         echo '</tr></table>';
 
         // Body text
-        // echo $this->pageText;
-        foreach ($this->pageText as $line) {
-            echo '<p>' . $line . '</p>';
+        if ($this->rawPage === false) {
+            foreach ($this->pageText as $line) {
+                echo '<p>' . $line . '</p>';
+            }
+        }
+        else {
+            echo $this->rawPage;
         }
 
         // Close off the page
