@@ -1,7 +1,6 @@
 <?php
 
     include('/../backend/getDog.php');
-    $dog = getRandomDog();
 
     try {
         $id = $_GET['id'];

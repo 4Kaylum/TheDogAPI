@@ -1,51 +1,48 @@
 <?php
 
     include('/../backend/outputObject.php');
+    include('/../backend/getDog.php');
 
-    // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        
-    //     include('/../../backend/dogObject.php');
-    //     $postBody = file_get_contents('php://input');
-    //     $obj = json_decode($postBody);
+    try {
 
-    //     if (isset($obj->url)) {
+        // They want a dog by it's ID
+        $id = $_GET['id'];
+        $dog = getSpecificDog($id);
+        $dogArray = array($dog);
+    }
+    catch (Exception $e) {
 
-    //         // Filter the URL
-    //         $re = '/http[s]*:\/\/.*\..*\/.*\.(png|jpg|jpeg|gif|gifv)/i';
-    //         preg_match_all($re, $obj->url, $matches, PREG_SET_ORDER, 0);
-    //         $url = $matches[0][0];
+        // They want a random dog - check limits
+        $dogArray = array();
 
-    //         // Generate the object
-    //         $dogObject = new Dog();
-    //         $x = $dogObject->newDog($url);
+        try {
 
-    //         // Post to database
-    //         include('/../../backend/databaseHandling.php');
-    //         $y = runSQL($x);
+            // They specified a limit
+            $limitStr = $_GET['limit'];
+            $limit = intval($limitStr);
 
-    //         // Output to user
-    //         $jsonObject = new JsonOutput();
-    //         echo $jsonObject->fromDogList(Array($dogObject), 'v2');
-    //     }
-    //     else {
+            // Make sure it's between 20 and 1
+            if ($limit > 20) {
+                $limit = 20;
+            }
+            else if ($limit < 1) {
+                $limit = 1;
+            }
+        }
+        catch (Exception $e) {
 
-    //         // Make new object and set error
-    //         $jsonObject = new JsonOutput();
-    //         $jsonObject->error = 'Invalid URL';
-    //         echo $jsonObject->fromDogList(Array(), 'v2');
-    //     }
+            // No limit specified - set default
+            $limit = 1;
+        }
 
-    // }
-    // else {
+        // For each i before limit, add to array.
+        for ($i = 0; $i <= $limit; $i++) {
+            $dog = getRandomDog();
+            array_push($dogArray, $dog);
+        }
+    }
 
-        // Get a random dog, echo JSON output
-        include('/../../backend/getDog.php');
-        $dogObject = getRandomDog();
-        echo $dogObject->url;
-        // $jsonObject = new JsonOutput();
-        // echo $jsonObject->fromDogList(Array($dogObject), 'v2');
-        // return;
-
-    // }
+    $output = new JsonOutput();
+    $output->fromDogList($dogArray);
 
 ?>
