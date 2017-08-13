@@ -2,7 +2,7 @@
 
     require $_SERVER['DOCUMENT_ROOT'] . '/../backend/dogObject.php';
     require $_SERVER['DOCUMENT_ROOT'] . '/../backend/config.php';
-    // $dbInfo = new DatabaseInfo();
+    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/utilityFunctions.php';
 
     function getRandomDog() {
 
@@ -79,17 +79,6 @@
             $dog = new Dog();
             return $dog;
         }
-    }
-
-
-    function generateRandomString($length=11) {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
     }
 
     function insertIntoDatabase($fileData) {
