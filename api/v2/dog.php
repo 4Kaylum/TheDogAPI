@@ -1,24 +1,25 @@
 <?php
 
-    include('/../backend/outputObject.php');
-    include('/../backend/getDog.php');
+    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/outputObject.php';
+    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/getDog.php';
 
-    try {
+    
+    $id = $_GET['id'];
 
-        // They want a dog by it's ID
-        $id = $_GET['id'];
+    if ($id != '') {
+
+        // Get dog by its ID
         $dog = getSpecificDog($id);
         $dogArray = array($dog);
     }
-    catch (Exception $e) {
+    else {
 
         // They want a random dog - check limits
         $dogArray = array();
 
-        try {
-
-            // They specified a limit
-            $limitStr = $_GET['limit'];
+        // They specified a limit
+        $limitStr = $_GET['limit'];
+        if ($limitStr != '') {
             $limit = intval($limitStr);
 
             // Make sure it's between 20 and 1
@@ -29,20 +30,21 @@
                 $limit = 1;
             }
         }
-        catch (Exception $e) {
+        else {
 
             // No limit specified - set default
             $limit = 1;
         }
 
         // For each i before limit, add to array.
-        for ($i = 0; $i <= $limit; $i++) {
+        for ($i = 1; $i <= $limit; $i++) {
             $dog = getRandomDog();
             array_push($dogArray, $dog);
         }
     }
 
     $output = new JsonOutput();
-    $output->fromDogList($dogArray);
+    $data = $output->fromDogList($dogArray, 'v2');
+    echo $data;
 
 ?>

@@ -1,18 +1,13 @@
 RewriteEngine on
 Options -Indexes
 
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}\.html -f
-RewriteRule ^(.*)$ $1.html
+DirectoryIndex index.php
 
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}\.php -f
-RewriteRule ^(.*)$ $1.php
-
-DirectoryIndex home.php
-
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^dog/(.*)$ /dog.php?id=$1 [L,QSA,NC]
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}\.php -f
+    RewriteRule ^(.*)$ $1.php
+</IfModule>
 
 # ErrorDocument 403 /errors/error.php
 # ErrorDocument 404 /errors/error.php

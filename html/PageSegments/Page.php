@@ -47,8 +47,8 @@ class Page {
         // Generate the nav items array
         $navItems = array(
             array('Index', '/'),
-            array('Dogumentation', 'http://docs.dogapi1.apiary.io/'),
-            array('Dog Picture', '/ui/v1/dog')
+            // array('Dogumentation', 'http://docs.dogapi1.apiary.io/'),
+            array('Dog Picture', '/dog.php')
         ); // array('Set Cookies', '/cookies')
 
         // Generate each item
