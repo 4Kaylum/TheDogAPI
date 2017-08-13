@@ -1,20 +1,25 @@
 <?php
 
     class JsonOutput {
-        public $count;
-        public $api_version;
+        public $count = 0;
+        public $api_version = '';
         public $error = null;
-        public $data;
+        public $data = array();
 
-        public function fromDogList($dogList, $apiVersion) {
+        public function __construct($apiVersion) {
             $this->api_version = $apiVersion;
+        }
+
+        public function fromDogList($dogList) {
             $arrayLength = sizeof($dogList);
             for ($i=0; $i < $arrayLength ; $i++) { 
                 unset($dogList[$i]->author_ip);
             }
-            $this->count = $arrayLength;
             $this->data = $dogList;
+        }
 
+        public function jsonify() {
+            $this->count = sizeof($this->data);
             header('Content-Type: application/json');
             return json_encode($this);
         }

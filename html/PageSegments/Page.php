@@ -67,6 +67,7 @@ class Page {
         $navItems = array(
             array('Index', '/'),
             array('Documentation', '/documentation.php'),
+            array('Upload', '/upload.php'),
             array('Dog Picture', '/dog.php')
         );
 

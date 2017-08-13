@@ -1,6 +1,7 @@
 <?php
 
-    include('PageSegments/Page.php');
+    require $_SERVER['DOCUMENT_ROOT'] . '/PageSegments/Page.php';
+    
     $page = new Page(
         'Index', 
         'Index', 

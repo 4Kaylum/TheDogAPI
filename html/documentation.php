@@ -1,6 +1,7 @@
 <?php
 
-    include('PageSegments/Page.php');
+    require $_SERVER['DOCUMENT_ROOT'] . '/PageSegments/Page.php';
+    
     $page = new Page(
         'Documentation', 
         'Documentation', 
@@ -21,7 +22,13 @@
         <ul>
             <li>limit - How many dog objects you want to get</li>
             <li>id - If you want the data of a specific dog</li>
+        </ul>
+        <p>Examples:</p>
         <ul>
+            <li>GET <a target="_blank" href="http://api.thedogapi.co.uk/v2/dog.php">/dog.php</a></li>
+            <li>GET <a target="_blank" href="http://api.thedogapi.co.uk/v2/dog.php?limit=5">/dog.php?limit=5</a></li>
+            <li>GET <a target="_blank" href="http://api.thedogapi.co.uk/v2/dog.php?id=5ta5p7JdHEL">/dog.php?id=5ta5p7JdHEL</a></li>
+        </ul>
     </div>
 
     <div class="borderbox">

@@ -1,13 +1,7 @@
 RewriteEngine on
 Options -Indexes
 
-DirectoryIndex index.php
-
-<IfModule mod_rewrite.c>
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME}\.php -f
-    RewriteRule ^(.*)$ $1.php
-</IfModule>
+DirectoryIndex index.php index.html
 
 # ErrorDocument 403 /errors/error.php
 # ErrorDocument 404 /errors/error.php

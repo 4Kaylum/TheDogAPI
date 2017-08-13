@@ -5,12 +5,18 @@
 
     
     $id = $_GET['id'];
+    $output = new JsonOutput('v2');
 
     if ($id != '') {
 
         // Get dog by its ID
         $dog = getSpecificDog($id);
         $dogArray = array($dog);
+        if ($dog->id != $id) {
+            $dogArray = array();
+            $output = new JsonOutput('v2');
+            $output->error = 'ID not found';
+        }
     }
     else {
 
@@ -43,8 +49,7 @@
         }
     }
 
-    $output = new JsonOutput();
-    $data = $output->fromDogList($dogArray, 'v2');
-    echo $data;
+    $output->fromDogList($dogArray);
+    echo $output->jsonify();
 
 ?>

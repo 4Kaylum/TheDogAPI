@@ -1,16 +1,4 @@
 RewriteEngine on
 Options -Indexes
 
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}\.html -f
-RewriteRule ^(.*)$ $1.html
-
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}\.php -f
-RewriteRule ^(.*)$ $1.php
-
-DirectoryIndex /v2/dog.php
-
-
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^dog/(.*)$ /dog.php?id=$1 [L,QSA,NC]
+DirectoryIndex index.php index.html

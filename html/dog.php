@@ -12,7 +12,8 @@
 
     // $dog = getRandomDog();
 
-    include('PageSegments/Page.php');
+    require $_SERVER['DOCUMENT_ROOT'] . '/PageSegments/Page.php';
+    
     $page = new Page(
         'Dog', 
         '<a href="/dog.php?id=' . $dog->id . '">' . $dog->id . '</a>',
