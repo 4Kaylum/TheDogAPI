@@ -1,8 +1,8 @@
 <?php
 
-    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/dogObject.php';
-    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/config.php';
-    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/utilityFunctions.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/dogObject.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/config.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/utilityFunctions.php';
 
     function getRandomDog() {
 
@@ -78,6 +78,38 @@
             echo '<p>', $e->getMessage(), '</p>';
             $dog = new Dog();
             return $dog;
+        }
+    }
+
+    function getAllUnchecked() {
+
+        try {
+
+            $dbh = new PDO(
+                $GLOBALS['DB_TYPE'] . ':host=' . $GLOBALS['DB_HOST'] . '; dbname=' . $GLOBALS['DB_NAME'] . ';', 
+                $GLOBALS['DB_USER'], 
+                $GLOBALS['DB_PASS']
+            ); 
+
+            // Get a dog from the database
+            $stmt = $dbh->prepare('SELECT * FROM DogPictures WHERE checked=0;');
+            $stmt->execute();
+
+            $dogArray = array();
+
+            // Grab the info from the row
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $iterator = new IteratorIterator($stmt);
+            foreach ($iterator as $row) {
+                $dog = new Dog();
+                $dog->fromDatabase($row);
+                array_push($dogArray, $dog);
+            }
+            return $dogArray;
+        }
+        catch (Exception $e) {
+            echo '<p>', $e->getMessage(), '</p>';
+            return array();
         }
     }
 

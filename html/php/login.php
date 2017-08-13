@@ -1,9 +1,9 @@
 <?php
 
-    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/databaseLogins.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/databaseLogins.php';
     $loggedIn = setLogin();
     if ($loggedIn === true) {
-        header("Location: /loggedin.php");
+        header("Location: /admin.php");
         die("You're now logged in.");
     }
     else {

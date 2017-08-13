@@ -1,5 +1,7 @@
 <?php 
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/databaseLogins.php';
+
 class Page {
 
     public $subheader;
@@ -7,7 +9,7 @@ class Page {
     public $pageName;
     public $rawPage = false;
 
-    function __construct ($pageName, $subheader, $pageText) {
+    function __construct ($pageName, $subheader, $pageText=array()) {
         $this->pageName = $pageName;
         $this->subheader = $subheader;
         $this->pageText = $pageText;
@@ -64,12 +66,19 @@ class Page {
         echo '<table width="100%"><tr>';
 
         // Generate the nav items array
+        $loginInfo = checkLoggedIn();
         $navItems = array(
             array('Index', '/'),
             array('Documentation', '/documentation.php'),
             array('Upload', '/upload.php'),
             array('Dog Picture', '/dog.php')
         );
+        if ($loginInfo === false) {
+            array_push($navItems, array('Login', '/login.php'));
+        }
+        else {
+            array_push($navItems, array('Console', '/admin.php'));
+        }
 
         // Generate each item
         $arrayLength = sizeof($navItems);

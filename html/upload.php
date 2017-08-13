@@ -1,6 +1,6 @@
 <?php 
 
-    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/databaseOptions.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/databaseOptions.php';
 
     // Check if a POST request is already being made
     if(isset($_POST["submit"])) {
@@ -23,12 +23,11 @@
         $alert = null;
     }
 
-    require $_SERVER['DOCUMENT_ROOT'] . '/PageSegments/Page.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/PageSegments/Page.php';
 
     $page = new Page(
         'Upload', 
-        'Upload', 
-        ''
+        'Upload'
     );
     $page->rawPage = '
     <style>.borderbox {

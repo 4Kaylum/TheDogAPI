@@ -1,6 +1,6 @@
 <?php
 
-    require $_SERVER['DOCUMENT_ROOT'] . '/PageSegments/Page.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/PageSegments/Page.php';
     
     $page = new Page(
         'Documentation', 

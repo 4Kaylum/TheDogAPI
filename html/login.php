@@ -1,7 +1,7 @@
 <?php
 
-    require $_SERVER['DOCUMENT_ROOT'] . '/PageSegments/Page.php';
-    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/databaseLogins.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/PageSegments/Page.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/databaseLogins.php';
 
     $loginData = checkLoggedIn();
     if ($loginData !== false) {
@@ -11,15 +11,15 @@
 
     $page = new Page(
         'Login',
-        'Login',
-        array()
+        'Login'
     );
     $page->rawPage = '
-        <div>
+        <p>This page is for site admins only. If you\'re looking here to see if you can make an account, you can\'t.</p>
+        <span>
             <a href="https://discordapp.com/oauth2/authorize?client_id=346385073135681536&scope=identify&response_type=code">
                 <input type="button" value="Login with Discord" name="discordLogin" style="width:100%;margin-top:20px;height:50px;"></input>
             </a>
-        </div>
+        </span>
     ';
     $message = $_GET['message'];
     if ($message != null) {

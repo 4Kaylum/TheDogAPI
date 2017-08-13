@@ -1,7 +1,7 @@
 <?php
 
-    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/config.php';
-    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/utilityFunctions.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/config.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/utilityFunctions.php';
 
     function discordOauthLogin() {
 
@@ -120,6 +120,42 @@
         catch (Exception $e) {
             echo '<p>', $e->getMessage(), '</p>';
             return $e->getMessage();
+        }
+
+    }
+
+    function setLogout() {
+
+        try {
+
+            $dbh = new PDO(
+                $GLOBALS['DB_TYPE'] . ':host=' . $GLOBALS['DB_HOST'] . '; dbname=' . $GLOBALS['DB_NAME'] . ';', 
+                $GLOBALS['DB_USER'], 
+                $GLOBALS['DB_PASS']
+            ); 
+
+            // Check for a person with that Discord ID
+            $stmt = $dbh->prepare('SELECT * FROM LoginData WHERE cookie_val=:cookie LIMIT 1;');
+            $stmt->bindParam(':cookie', $_COOKIE['loginToken'], PDO::PARAM_STR);
+            $stmt->execute();
+
+            if ($stmt->rowCount() == 0) {
+                return;
+            }
+
+            // A person exists - set their cookies and save to the database
+            setcookie('loginToken', 'null', time() - (86400 * 30), "/"); // 30 days ago
+            $stmt = $dbh->prepare('UPDATE LoginData SET cookie_val=NULL WHERE discord_id=:discordID;');
+            $stmt->bindParam(':discordID', $discordID, PDO::PARAM_STR);
+            $stmt->execute();
+
+            // Yay they're logged in
+            return true;
+
+        }
+        catch (Exception $e) {
+            echo '<p>', $e->getMessage(), '</p>';
+            return;
         }
 
     }
