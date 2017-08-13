@@ -5,13 +5,11 @@ class Page {
     public $subheader;
     public $pageText;
     public $pageName;
-    public $activePage;
 
-    function __construct ($subheader, $pageName, $activePage, $pageText) {
+    function __construct ($pageName, $subheader, $pageText) {
+        $this->pageName = $pageName;
         $this->subheader = $subheader;
         $this->pageText = $pageText;
-        $this->pageName = $pageName;
-        $this->activePage = $activePage;
     }
 
     function output() {
@@ -21,62 +19,72 @@ class Page {
             <html lang="en">
             <head>
                 <title>' . $this->pageName . ' | TheDogAPI.co.uk</title>
-                <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-                <link rel="stylesheet" href="https://bootswatch.com/darkly/bootstrap.min.css">
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-                </head>
-            <body><style type="text/css">p {text-align:justify;}</style>
-            ';
+                <style type="text/css">
+                    * {
+                        font-family: Helvetica;
+                    }
+                    body {
+                        margin:40px auto;
+                        max-width:650px;
+                        line-height:1.6;
+                        font-size:18px;
+                        color:#444;
+                        padding:0 10px;
+                        background-color: #EEE;
+                        text-align: justify;
+                    }
+
+                    h1,
+                    h2,
+                    h3 {
+                        line-height:1.2
+                    }
+
+                    td {
+                        text-align: center;
+                    }
+
+                    table {
+                        table-layout: fixed;
+                    }
+
+                    a,
+                    a:visited {
+                        color:blue;
+                    }
+                </style>
+            </head><body>
+        ';
+
+        // Page title
+        echo '<h1 style="text-align: center;">' . $this->subheader . ' &middot; The Dog API</h1>';
 
         // Navbar
-        echo '
-            <nav class="navbar navbar-default">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mainNavbar">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="/">TheDogAPI</a>
-                    </div>
-                    <div class="collapse navbar-collapse" id="mainNavbar">
-                        <ul class="nav navbar-nav">';
+        echo '<table width="100%"><tr>';
 
         // Generate the nav items array
         $navItems = array(
             array('Index', '/'),
-            // array('Dogumentation', 'http://docs.dogapi1.apiary.io/'),
             array('Dog Picture', '/dog.php')
-        ); // array('Set Cookies', '/cookies')
+        );
 
         // Generate each item
         $arrayLength = sizeof($navItems);
         for ($i = 0; $i < $arrayLength; $i++) {
-            if ($navItems[$i][0] == $activePage) {
-                echo '<li class="active"><a href="'.$navItems[$i][1].'">'.$navItems[$i][0].'</a></li>';
-            }
-            else {
-                echo '<li><a href="'.$navItems[$i][1].'">'.$navItems[$i][0].'</a></li>';
-            }
+            echo '<td><a href="'.$navItems[$i][1].'">'.$navItems[$i][0].'</a></td>';
         }
 
         // Close off the navbar
-        echo '</ul></div></div></nav>';
+        echo '</tr></table>';
 
         // Body text
-        echo '
-            <div class="container bodytext">
-            <div class="page-header">
-                <h1>The Dog API</h1>
-                <p>' . $this->subheader . '</p>
-            </div>
-            <div class="row">
-                <div class="column col-sm-12">'. $this->pageText . '</div></div>';
+        // echo $this->pageText;
+        foreach ($this->pageText as $line) {
+            echo '<p>' . $line . '</p>';
+        }
 
         // Close off the page
-        echo '</div></div></body></html>';
+        echo '</body></html>';
     }
 }
 
