@@ -9,13 +9,9 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*)$ $1.php
 
-DirectoryIndex index.php
+DirectoryIndex dog.php
 
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^dog/(.*)$ /dog.php?id=$1 [L,QSA,NC]
-
-# ErrorDocument 403 /errors/error.php
-# ErrorDocument 404 /errors/error.php
-# ErrorDocument 500 /errors/error.php
 
