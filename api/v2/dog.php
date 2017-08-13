@@ -1,7 +1,7 @@
 <?php
 
     require $_SERVER['DOCUMENT_ROOT'] . '/../backend/outputObject.php';
-    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/getDog.php';
+    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/databaseOptions.php';
 
     
     $id = $_GET['id'];

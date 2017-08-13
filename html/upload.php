@@ -1,6 +1,6 @@
 <?php 
 
-    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/getDog.php';
+    require $_SERVER['DOCUMENT_ROOT'] . '/../backend/databaseOptions.php';
 
     // Check if a POST request is already being made
     if(isset($_POST["submit"])) {
