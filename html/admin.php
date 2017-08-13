@@ -43,6 +43,8 @@
                 <tr>
                     <th>ID</th>
                     <th>URL</th>
+                    <th>Checked</th>
+                    <th>Verified</th>
                     <th>IP</th>
                     <th>Actions</th>
                 </tr>
@@ -53,6 +55,8 @@
                     <tr>
                         <td>' . $dog->id . '</td>
                         <td><a href="' . $dog->url . '">/' . end(explode('/', $dog->url)) . '</a></td>
+                        <td>' . $dog->checked . '</td>
+                        <td>' . $dog->verified . '</td>
                         <td>' . $dog->author_ip . '</td>
                         <td>
                             <input style="background-color:green;color:white;font-weight:bold;" type="submit" name="action" value="Allow">
