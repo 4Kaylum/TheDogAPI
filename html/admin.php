@@ -37,7 +37,6 @@
             .notHeader {
                 table-layout: initial;
                 width: 100%;
-                margin-top:20px;
             }</style>
             <table class="notHeader">
                 <tr>

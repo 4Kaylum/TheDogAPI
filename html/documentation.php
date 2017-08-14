@@ -16,8 +16,9 @@
         margin-bottom: 20px;
     }</style>
 
+    <p>All endpoints are found by accessing the URL <u>api.thedogapi.co.uk</u>.</p>
     <div class="borderbox">
-        <h3>GET &middot; <a href="http://api.thedogapi.co.uk/v2/dog.php">api.thedogapi.co.uk/v2/dog.php</a></h3>
+        <h3>GET &middot; <a href="http://api.thedogapi.co.uk/v2/dog.php">/v2/dog.php</a></h3>
         <p>Params:</p>
         <ul>
             <li>limit - How many dog objects you want to get</li>
