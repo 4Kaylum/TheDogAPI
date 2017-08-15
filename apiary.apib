@@ -1,15 +1,16 @@
 FORMAT: 1A
-HOST: http://thedogapi.co.uk/api/v1
+HOST: https://api.thedogapi.co.uk/v2
 
 # DogAPI
 
 This is a simple API for retrieving and/or posting images of dogs. There are plenty of these available for cats, so why not one for dogs?
 
-## Get dog [/dog{?limit}]
+## Get dog [/dog.php{?limit,id}]
 
 + Parameters
 
     + limit (optional) - The amount of dog images you want to get. Defaults to 1, and has a maximum of 20.
+    + id (optional) - The ID of a specific dog that you want to get. If specified, limit will be ignored.
 
 ### Get a random dog [GET]
 
@@ -22,52 +23,12 @@ This is a simple API for retrieving and/or posting images of dogs. There are ple
                     "url": "https://i.redd.it/yz95pef6gn6z.jpg",
                     "time": "2017-06-30T03:57:20.073537",
                     "format": "jpeg",
+                    "checked": 1,
                     "verified": 1
                 }
             ],
             "count": 1,
             "error": null,
-            "api_version": "v1"
+            "api_version": "v2",
+            "response_code": 200
         }
-
-## Add dog [/dog{?url}]
-
-+ Parameters
-
-    + url - The URL of your dog image that you want to add to the database.
-
-### Add a dog to the database [POST]
-
-+ Response 201 (application/json)
-
-    + Body
-
-            {
-                "data": [
-                    {
-                        "id": "aBcDeFgHiJk",
-                        "url": "yourDogImageURL",
-                        "time": "2017-06-30T03:57:20.073537",
-                        "format": "jpeg",
-                        "verified": 0
-                    }
-                ],
-                "count": 1,
-                "error": null,
-                "api_version": "v1"
-            }
-
-## Count database [/count]
-
-### See how many dogs are in the database [GET]
-
-+ Response 200 (application/json)
-
-    + Body
-
-            {
-                "data": []
-                "count": 168,
-                "error": null,
-                "api_version": "v1"
-            }
