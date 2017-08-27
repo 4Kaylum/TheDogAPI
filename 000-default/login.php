@@ -24,7 +24,7 @@
     $message = $_GET['message'];
     if ($message != null) {
         $page->rawPage = $page->rawPage . '
-            <p>' . $message . '</p>
+            <script>alert("' . $message . '");</script>
         ';
     }
     $page->output();
