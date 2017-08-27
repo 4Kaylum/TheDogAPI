@@ -16,6 +16,7 @@
             $dogArray = array();
             $output = new JsonOutput('v2');
             $output->error = 'ID not found';
+            $output->response_code = 404;
         }
     }
     else {
