@@ -171,7 +171,7 @@ function insertIntoDatabase($fileData) {
         // Get a dog from the database
         $stmt = $dbh->prepare('INSERT INTO DogPictures (id, url, time, format, author_ip, verified, checked) VALUES (:id, :url, :time, :format, :author_ip, 0, 0);');
         $stmt->bindParam(':id', $newID, PDO::PARAM_STR);
-        $url = 'http://i.thedogapi.co.uk/' . $newID . '.' . $fileExtention;
+        $url = 'https://i.thedogapi.co.uk/' . $newID . '.' . $fileExtention;
         $stmt->bindParam(':url', $url, PDO::PARAM_STR);
         $stmt->bindParam(':time', date('Y-m-d\TH:i:s.0'), PDO::PARAM_STR);
         $stmt->bindParam(':format', $fileExtention, PDO::PARAM_STR);

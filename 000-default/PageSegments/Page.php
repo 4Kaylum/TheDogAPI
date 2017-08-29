@@ -8,6 +8,7 @@ class Page {
     public $pageText;
     public $pageName;
     public $rawPage = false;
+    public $pageDescription = 'A set of API endpoints for pictures of dogs';
 
     function __construct ($pageName, $subheader, $pageText=array()) {
         $this->pageName = $pageName;
@@ -23,6 +24,12 @@ class Page {
             <head>
                 <title>' . $this->pageName . ' | TheDogAPI.co.uk</title>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta name="description" content="' . $this->pageDescription . '">
+                
+                <meta property="og:title" content="' . $this->pageName . ' | TheDogAPI.co.uk" />
+                <meta property="og:type" content="website" />
+                <!-- <meta property="og:image" content="http://ia.media-imdb.com/images/rock.jpg" /> -->
+                
                 <link rel="stylesheet" type="text/css" href="/css/main.css">
                 <script type="text/javascript" src="/js/navbar.js"></script>
             </head>
