@@ -2,7 +2,7 @@
 
     require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/databaseOptions.php';
 
-    $id = $_GET['id'];
+    $id = (isset($_GET['id']) ? $_GET['id'] : '');
     if ($id != '') {
         $dog = getSpecificDog($id);
     }

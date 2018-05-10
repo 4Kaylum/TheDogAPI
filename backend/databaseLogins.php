@@ -25,6 +25,7 @@
         curl_close($curl);
 
         // Decode that to JSON
+        // die($output);
         $jsonData = json_decode($output, true); 
         // return json_encode($jsonData);
 
@@ -37,6 +38,7 @@
         curl_close($curl);  
 
         // Decode THAT to JSON too
+        // die($output);
         $jsonData = json_decode($output, true);
         // return json_encode($jsonData);
         $discordUserID = $jsonData['id'];

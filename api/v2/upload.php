@@ -4,6 +4,7 @@
 // Grab the requirements
 require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/outputObject.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/databaseOptions.php';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/databaseOptions.php';
 
 
 // Setup the output variable
@@ -14,7 +15,9 @@ $out = new JsonOutput('v2');
 foreach($_FILES as $key => $value) {
 
     // Check it's a file
+    // $value["tmp_name"] = '/tmp/44.jpg';
     $check = getimagesize($value["tmp_name"]);
+    // die(json_encode($check));
     if($check !== false) {
 
         // Insert and output

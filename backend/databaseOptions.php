@@ -145,7 +145,7 @@ function checkDogByID($dogID, $setVerifiedTo) {
 function insertIntoDatabase($fileData) {
 
     // Get an ID that doesn't exist
-    $targetDir = '/var/www/i/';
+    $targetDir = '/var/www/TheDogAPI/i/';
     while(1 == 1) {
         $newID = generateRandomString();
         $dogByID = getSpecificDog($newID);
