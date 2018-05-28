@@ -7,9 +7,17 @@
         $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
         if($check !== false) {
 
-            // File is an image
-            $dog = insertIntoDatabase($_FILES["fileToUpload"]);
-            $alert = 'Upload successful! ID: ' . $dog->id;
+            $mimetype = mime_content_type($_FILES["fileToUpload"]["tmp_name"]);
+            if (substr($mimetype, 0, 5) != "image") {
+                
+                $alert = "That file isn't an image!";
+            }
+            else {
+
+                // File is an image
+                $dog = insertIntoDatabase($_FILES["fileToUpload"]);
+                $alert = 'Upload successful! ID: ' . $dog->id;
+            }
 
         } 
         else {
