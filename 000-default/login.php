@@ -21,8 +21,8 @@
             </a>
         </span>
     ';
-    $message = $_GET['message'];
-    if ($message != null) {
+    $message = (isset($_GET['message']) ? $_GET['message'] : '');
+    if ($message != '') {
         $page->rawPage = $page->rawPage . '
             <script>alert("' . $message . '");</script>
         ';

@@ -5,7 +5,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/databaseOptions.php';
 // require_once $_SERVER['DOCUMENT_ROOT'] . '/../backend/googleAnalytics.php';
 
 
-$id = $_GET['id'];
+$id = (issset($_GET['id']) ? $_GET['id'] : '');
 $output = new JsonOutput('v2');
 
 if ($id != '') {
@@ -26,7 +26,7 @@ else {
     $dogArray = array();
 
     // They specified a limit
-    $limitStr = $_GET['limit'];
+    $limitStr = (issset($_GET['limit']) ? $_GET['limit'] : '');
     if ($limitStr != '') {
         $limit = intval($limitStr);
 
